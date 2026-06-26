@@ -1,0 +1,21 @@
+{
+  "name": "Moi",
+  "short_name": "Moi",
+  "description": "Moi Web Application",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1976d2",
+  "icons": [
+    {
+      "src": "/icon-192-bvs.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512-bvs.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

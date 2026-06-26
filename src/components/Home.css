@@ -1,0 +1,60 @@
+.product-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding-top: 10px;
+}
+.vinoth-container { width: 100%; padding: 20px; box-sizing: border-box; }
+.button-container { display: flex; justify-content: flex-end; gap: 10px; margin: 15px 20px; }
+.csv-btn, .print-btn { background-color: #0275d8; color: white; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+.csv-btn { background-color: #d9534f; }
+
+.place-header { background-color: #0275d8; color: white; padding: 10px 15px; font-size: 18px; font-weight: bold; }
+.table-section { width: 100%; padding: 10px; }
+.table-wrapper { width: 100%; overflow-x: auto; }
+.vinoth-table { width: 100%; border-collapse: collapse; background: white; font-size: 12px; margin-bottom: 25px; }
+.vinoth-table th, .vinoth-table td { border: 1px solid #ccc; padding: 6px; text-align: center; }
+
+/* ✅ Print Styles */
+@media print {
+  body { margin: 0; padding: 0; }
+  .button-container { display: none !important; }
+  .vinoth-container { width: 100%; padding: 0; }
+  .vinoth-table { 
+    width: 100% !important; 
+    font-size: 11px !important; 
+    border: 1px solid #000 !important; 
+    page-break-inside: auto; 
+  }
+  .vinoth-table th, .vinoth-table td { border: 1px solid #000 !important; padding: 4px !important; }
+  .vinoth-table tr { page-break-inside: avoid; page-break-after: auto; }
+  @page { size: A4 landscape; margin: 5mm; }
+}
+.action-container {
+  animation: slideDown .6s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .action-container {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .action-container select,
+  .action-container button {
+    width: 100%;
+  }
+}
+

@@ -1,0 +1,224 @@
+/* ===============================
+   Navbar Layout
+=================================*/
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #286628;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1000;
+}
+
+.logo img {
+  border-radius: 8px;
+}
+
+/* ===============================
+   Navigation Links
+=================================*/
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.nav-links li a,
+.dropbtn {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 10px;
+  display: block;
+}
+
+.nav-links li a:hover,
+.dropbtn:hover {
+  color: #ffeb3b;
+}
+
+/* ===============================
+   Dropdown Menu
+=================================*/
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  min-width: 180px;
+  z-index: 999;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.dropdown-content li {
+  list-style: none;
+}
+
+.dropdown-content li a {
+  display: block;
+  padding: 10px;
+  color: #247865;
+  text-decoration: none;
+}
+
+.dropdown-content li a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Desktop dropdown hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* ===============================
+   Hamburger (Mobile Toggle)
+=================================*/
+.hamburger {
+  display: none;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ===============================
+   User Initials & Logout
+=================================*/
+.user-menu {
+  position: relative;
+}
+
+.user-initials {
+  width: 40px;
+  height: 40px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 99999;
+  width: 120px;
+}
+
+.logout-dropdown button {
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.logout-dropdown button:hover {
+  color: #d9534f;
+}
+
+/* ===============================
+   Mobile Styles
+=================================*/
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    background-color: #1f1f1f;
+    display: none;
+    padding: 10px 0;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav-links li a,
+  .dropbtn {
+    padding: 10px 20px;
+    width: 100%;
+    color: white;
+  }
+
+  /* Disable hover dropdown for mobile */
+  .dropdown:hover .dropdown-content {
+    display: none;
+  }
+
+  /* Mobile dropdown behavior */
+  .dropdown-content {
+    position: relative;
+    background-color: #333;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content li a {
+    color: white;
+  }
+
+  .dropdown-content li a:hover {
+    background-color: #444;
+  }
+
+  /* FIX — make logout dropdown visible on mobile */
+  .user-menu {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 20px;
+  }
+
+  .logout-dropdown {
+    position: relative;
+    top: 10px;
+    right: auto;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+  }
+
+  .logout-dropdown button {
+    width: 100%;
+  }
+}
