@@ -3,6 +3,7 @@ import data from "../assets/pending.json";
 import { BlinkBlur } from "react-loading-indicators";
 import useData from "./custom-hook/useData";
 import "./Home.css";
+import { motion } from "framer-motion";
 
 export const CompleteListRelo = () => {
   // ✅ Get logged-in user from localStorage
@@ -113,55 +114,131 @@ export const CompleteListRelo = () => {
   // -------------------------------------------
 
   return (
-    <div>
-      <div style={{ textAlign: "right", margin: "10px" }}>
-        <button
+    <motion.div
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.8,
+        }}
+      >
+      <motion.div
+        className="no-print"
+        initial={{
+          y: -40,
+          opacity: 0,
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.6,
+          delay: 0.2,
+        }}
+        style={{
+          textAlign: "right",
+          margin: "10px",
+        }}
+      >
+             <motion.button
+          whileHover={{
+            scale: 1.08,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
           onClick={handlePrint}
           style={{
-            padding: "8px 15px",
-            backgroundColor: "#0275d8",
-            color: "white",
+            padding: "10px 20px",
+            background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+            color: "#fff",
             border: "none",
-            borderRadius: "5px",
+            borderRadius: "10px",
             cursor: "pointer",
+            fontWeight: "bold",
+            boxShadow: "0 10px 20px rgba(0,0,0,.2)",
           }}
         >
-          🖨 Print
-        </button>
-      </div>
+          🖨️ Print Page
+        </motion.button>
+      </motion.div>
 
       <div style={{ width: "100%", padding: "10px" }}>
         {Object.entries(grouped).map(([function_name, items]) => (
-          <div
+           <motion.div
             key={function_name}
+            initial={{
+              opacity: 0,
+              y: 50,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.6,
+            }}
             style={{
               marginBottom: "30px",
               border: "1px solid #aaa",
-              borderRadius: "5px",
+              borderRadius: "8px",
               overflow: "hidden",
             }}
           >
-            <div
+                       <motion.div
+              initial={{
+                x: -50,
+                opacity: 0,
+              }}
+              animate={{
+                x: 0,
+                opacity: 1,
+              }}
+              transition={{
+                duration: 0.5,
+              }}
               style={{
-                backgroundColor: "#0275d8",
-                color: "white",
-                padding: "10px 15px",
+                background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+                color: "#fff",
+                padding: "12px",
                 fontSize: "18px",
+                fontWeight: "bold",
               }}
             >
-              {function_name}
-            </div>
+                          {function_name}
+                        </motion.div>
 
-            <div style={{ overflowX: "auto" }}>
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: 0.95,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              transition={{
+                duration: 0.6,
+              }}
+              style={{
+                overflowX: "auto",
+              }}
+            >
               <table
                 width="100%"
                 border="1"
                 style={{
-                  borderCollapse: "collapse",
-                  width: "100%",
-                  tableLayout: "fixed",
-                  minWidth: "1100px",
-                }}
+borderCollapse:"collapse",
+minWidth:"1200px",
+fontSize:"14px",
+boxShadow:"0 10px 20px rgba(0,0,0,.15)",
+borderRadius:"10px"
+}}
               >
                 <thead>
                   <tr style={{ backgroundColor: "#f1f1f1" }}>
@@ -176,24 +253,44 @@ export const CompleteListRelo = () => {
 
                 <tbody>
                   {items.map((item, index) => (
-                    <tr
+                    <motion.tr
                       key={item.id || index}
-                      style={{
-                        backgroundColor:
-                          index % 2 === 0 ? "#f7d4e7" : "#e2e2e2",
+                      initial={{
+                        opacity: 0,
+                        x: -20,
                       }}
-                    >
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                      }}
+                      transition={{
+                        delay: index * 0.05,
+                      }}>
                       <td style={tdStyle}>{item.place}</td>
                       <td style={tdStyle}>{item.name}</td>
                       <td style={tdStyle}>{item.old_amount}</td>
                       <td style={tdStyle}>{item.new_amount}</td>
                       <td style={tdStyle}>{item.given_amount_status}</td>
                       <td style={tdStyle}>{item.function_name}</td>
-                    </tr>
+                    </motion.tr>
                   ))}
 
                   {/* TOTALS */}
-                  <tr style={{ backgroundColor: "#dff0d8" }}>
+                   <motion.tr
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                    transition={{
+                      delay: 0.8,
+                    }}
+                    style={{
+                      backgroundColor: "#dff0d8",
+                      fontWeight: "bold",
+                    }}
+                  >
                     <td></td>
                     <td></td>
                     <td style={tdTotalStyle}>
@@ -216,11 +313,11 @@ export const CompleteListRelo = () => {
                     </td>
                     <td></td>
                     <td></td>
-                  </tr>
+                  </motion.tr>
                 </tbody>
               </table>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 
@@ -259,6 +356,6 @@ export const CompleteListRelo = () => {
           }
         `}
       </style>
-    </div>
+    </motion.div>
   );
 };

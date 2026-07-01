@@ -3,6 +3,7 @@ import data from "../assets/mois.json"
 import { Atom } from 'react-loading-indicators'
 import "./Home.css"
 import useData from "./custom-hook/useData" 
+import { motion } from "framer-motion";
 
 export const GivenStatusGroup = ({ cart, setCart }) => {
   // Fetch data from Supabase
@@ -89,57 +90,134 @@ export const GivenStatusGroup = ({ cart, setCart }) => {
   }
 
   return (
-    <div>
+    <motion.div
+       initial={{
+         opacity: 0,
+       }}
+       animate={{
+         opacity: 1,
+       }}
+       transition={{
+         duration: 0.8,
+       }}
+     >
 
       {/* Print Button */}
-      <div style={{ textAlign: 'right', margin: '10px' }} className="no-print">
-        <button
+      <motion.div
+        className="no-print"
+        initial={{
+          y: -40,
+          opacity: 0,
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.6,
+          delay: 0.2,
+        }}
+        style={{
+          textAlign: "right",
+          margin: "10px",
+        }}
+      >
+             <motion.button
+          whileHover={{
+            scale: 1.08,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
           onClick={handlePrint}
           style={{
-            padding: '10px 20px',
-            backgroundColor: '#0275d8',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
+            padding: "10px 20px",
+            background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+            color: "#fff",
+            border: "none",
+            borderRadius: "10px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            boxShadow: "0 10px 20px rgba(0,0,0,.2)",
           }}
         >
-          Print Page
-        </button>
-      </div>
+          🖨️ Print Page
+        </motion.button>
+      </motion.div>
 
       {/* Table Section */}
       <div style={{ maxWidth: '100%', width: '100%', padding: '10px' }}>
         {Object.entries(grouped).map(([given_amount_status, items]) => (
-          <div
+          <motion.div
             key={given_amount_status}
+            initial={{
+              opacity: 0,
+              y: 50,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.6,
+            }}
             style={{
-              marginBottom: '30px',
-              border: '1px solid #aaa',
-              borderRadius: '5px',
-              overflow: 'hidden',
+              marginBottom: "30px",
+              border: "1px solid #aaa",
+              borderRadius: "8px",
+              overflow: "hidden",
             }}
           >
-            <div
+                   <motion.div
+              initial={{
+                x: -50,
+                opacity: 0,
+              }}
+              animate={{
+                x: 0,
+                opacity: 1,
+              }}
+              transition={{
+                duration: 0.5,
+              }}
               style={{
-                backgroundColor: '#0275d8',
-                color: 'white',
-                padding: '10px 15px',
-                fontSize: '18px',
+                background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+                color: "#fff",
+                padding: "12px",
+                fontSize: "18px",
+                fontWeight: "bold",
               }}
             >
-              {given_amount_status}
-            </div>
+                          {given_amount_status}
+                        </motion.div>
 
-            <div style={{ overflowX: 'auto' }}>
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: 0.95,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              transition={{
+                duration: 0.6,
+              }}
+              style={{
+                overflowX: "auto",
+              }}
+            >
               <table
                 width="100%"
                 border="1"
                 style={{
-                  borderCollapse: 'collapse',
-                  minWidth: '1200px',
-                  fontSize: '14px',
-                }}
+borderCollapse:"collapse",
+minWidth:"1200px",
+fontSize:"14px",
+boxShadow:"0 10px 20px rgba(0,0,0,.15)",
+borderRadius:"10px"
+}}
               >
                 <thead>
                   <tr style={{ backgroundColor: '#f1f1f1' }}>
@@ -154,27 +232,41 @@ export const GivenStatusGroup = ({ cart, setCart }) => {
 
                 <tbody>
                   {items.map((item, index) => (
-                    <tr
+                    <motion.tr
                       key={item.id || index}
-                      style={{
-                        backgroundColor:
-                          index % 2 === 0 ? '#f7d4e7' : '#e2e2e2',
-                        textAlign: 'center',
+                      initial={{
+                        opacity: 0,
+                        x: -20,
                       }}
-                    >
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                      }}
+                      transition={{
+                        delay: index * 0.05,
+                      }}>
                       <td style={tdStyle}>{item.place}</td>
                       <td style={tdStyle}>{item.name}</td>
                       <td style={tdStyle}>{item.old_amount}</td>
                       <td style={tdStyle}>{item.new_amount}</td>
                       <td style={tdStyle}>{item.given_amount_status}</td>
                       <td style={tdStyle}>{item.function_name}</td>
-                    </tr>
+                    </motion.tr>
                   ))}
 
-                  <tr
+                  <motion.tr
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                    transition={{
+                      delay: 0.8,
+                    }}
                     style={{
-                      backgroundColor: '#dff0d8',
-                      fontWeight: 'bold',
+                      backgroundColor: "#dff0d8",
+                      fontWeight: "bold",
                     }}
                   >
                     <td></td>
@@ -195,11 +287,11 @@ export const GivenStatusGroup = ({ cart, setCart }) => {
                     </td>
                     <td></td>
                     <td></td>
-                  </tr>
+                  </motion.tr>
                 </tbody>
               </table>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 
@@ -241,6 +333,6 @@ export const GivenStatusGroup = ({ cart, setCart }) => {
         }
       `}
       </style>
-    </div>
+    </motion.div>
   );
 };

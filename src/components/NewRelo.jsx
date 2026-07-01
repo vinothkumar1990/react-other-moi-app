@@ -13,6 +13,11 @@ import {
 import MicIcon from "@mui/icons-material/Mic";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
+import PersonIcon from "@mui/icons-material/Person";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import EventIcon from "@mui/icons-material/Event";
+import SaveIcon from "@mui/icons-material/Save";
 
 // ✅ Supabase
 const SUPABASE_URL = "https://ievyooeawrzhkemxfswj.supabase.co/rest/v1/mois";
@@ -109,11 +114,26 @@ export const NewRelo = () => {
       }}
       size="small"
       sx={{
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-        height: "40px",
-        width: "40px",
-      }}
+    background:
+      "linear-gradient(45deg,#2196F3,#42A5F5)",
+    color: "#fff",
+    borderRadius: "50%",
+    width: 45,
+    height: 45,
+
+    "&:hover": {
+      background:
+        "linear-gradient(45deg,#1976D2,#1565C0)",
+    },
+}}
+      component={motion.button}
+whileHover={{
+  scale: 1.2,
+  rotate: 10,
+}}
+whileTap={{
+  scale: 0.9,
+}}
     >
       <motion.div
         animate={{
@@ -186,7 +206,23 @@ export const NewRelo = () => {
 
       if (!res.ok) throw new Error(await res.text());
 
-      Swal.fire("Success", "Added successfully", "success");
+      Swal.fire({
+
+icon:"success",
+
+title:"🎉 பதிவு வெற்றிகரமாக சேர்க்கப்பட்டது",
+
+text:"மொய் தகவல் சேமிக்கப்பட்டது.",
+
+showConfirmButton:false,
+
+timer:1800,
+
+background:"#E8F5E9",
+
+color:"#2E7D32"
+
+});
 
       setNewProduct({
         name: "",
@@ -207,16 +243,75 @@ export const NewRelo = () => {
   };
 
   return (
+    <Box
+    sx={{
+      minHeight: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      background:
+        "linear-gradient(135deg,#2196F3,#9C27B0,#00BCD4)",
+      backgroundSize: "400% 400%",
+      animation: "gradient 10s ease infinite",
+      p: 2,
+
+      "@keyframes gradient": {
+        "0%": {
+          backgroundPosition: "0% 50%",
+        },
+        "50%": {
+          backgroundPosition: "100% 50%",
+        },
+        "100%": {
+          backgroundPosition: "0% 50%",
+        },
+      },
+    }}
+  >
     <Paper
-      elevation={10}
-      sx={{ maxWidth: 420, width: "95%", margin: "20px auto", p: 2 }}
-    >
-      <Typography variant="h6" textAlign="center">
-        புதிய மொய்
-      </Typography>
+  component={motion.div}
+  initial={{ opacity: 0, y: 50 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+  elevation={12}
+  sx={{
+    maxWidth: 500,
+    width: "95%",
+    margin: "20px auto",
+    p: 3,
+    borderRadius: 5,
+    background:
+      "linear-gradient(135deg,#ffffff,#E3F2FD,#F3E5F5,#FFF8E1)",
+    boxShadow: "0 15px 40px rgba(0,0,0,0.2)",
+  }}
+>
+     <Typography
+  component={motion.h2}
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ duration: 0.5 }}
+  align="center"
+  sx={{
+    fontWeight: "bold",
+    fontSize: 28,
+    color: "#1565C0",
+    mb: 3,
+  }}
+>
+    புதிய மொய் பதிவு
+</Typography>
 
       <Grid component="form" onSubmit={handleAdd} sx={{ display: "grid", gap: 2, mt: 2 }}>
-        
+        <motion.div
+
+initial={{ x: -40, opacity: 0 }}
+  animate={{ x: 0, opacity: 1 }}
+  transition={{
+    duration: 0.5,
+    delay: 0.2
+  }}
+
+>
         <InputWithMic
           field="name"
           label="பெயர்"
@@ -226,8 +321,31 @@ export const NewRelo = () => {
           MicInside={MicInside}
           error={!!errors.name}
           helperText={errors.name}
-        />
+          sx={{
+  background: "#fff",
+  borderRadius: 2,
 
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 3,
+  },
+
+  "& .Mui-focused fieldset": {
+    borderColor: "#1976d2",
+    borderWidth: 2,
+  },
+}}
+        />
+</motion.div>
+<motion.div
+
+initial={{ x: -40, opacity: 0 }}
+  animate={{ x: 0, opacity: 1 }}
+  transition={{
+    duration: 0.5,
+    delay: 0.2
+  }}
+
+>
         <InputWithMic
           field="place"
           label="ஊர்"
@@ -237,8 +355,31 @@ export const NewRelo = () => {
           MicInside={MicInside}
           error={!!errors.place}
           helperText={errors.place}
-        />
+          sx={{
+  background: "#fff",
+  borderRadius: 2,
 
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 3,
+  },
+
+  "& .Mui-focused fieldset": {
+    borderColor: "#1976d2",
+    borderWidth: 2,
+  },
+}}
+        />
+</motion.div>
+<motion.div
+
+initial={{ x: -40, opacity: 0 }}
+  animate={{ x: 0, opacity: 1 }}
+  transition={{
+    duration: 0.5,
+    delay: 0.2
+  }}
+
+>
         <InputWithMic
           field="old_amount"
           label="பழைய பணம்"
@@ -249,8 +390,31 @@ export const NewRelo = () => {
           MicInside={MicInside}
           error={!!errors.old_amount}
           helperText={errors.old_amount}
-        />
+          sx={{
+  background: "#fff",
+  borderRadius: 2,
 
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 3,
+  },
+
+  "& .Mui-focused fieldset": {
+    borderColor: "#1976d2",
+    borderWidth: 2,
+  },
+}}
+        />
+        </motion.div>
+<motion.div
+
+initial={{ x: -40, opacity: 0 }}
+  animate={{ x: 0, opacity: 1 }}
+  transition={{
+    duration: 0.5,
+    delay: 0.2
+  }}
+
+>
         <InputWithMic
           field="new_amount"
           label="புதிய பணம்"
@@ -261,8 +425,21 @@ export const NewRelo = () => {
           MicInside={MicInside}
           error={!!errors.new_amount}
           helperText={errors.new_amount}
-        />
+          sx={{
+  background: "#fff",
+  borderRadius: 2,
 
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 3,
+  },
+
+  "& .Mui-focused fieldset": {
+    borderColor: "#1976d2",
+    borderWidth: 2,
+  },
+}}
+        />
+</motion.div>
         <TextField
           select
           label="தடவை"
@@ -289,10 +466,51 @@ export const NewRelo = () => {
           disabled
         />
 
-        <Button type="submit" variant="contained" disabled={loading}>
-          {loading ? <CircularProgress size={20} /> : "Add"}
-        </Button>
+        <Button
+component={motion.button}
+whileHover={{
+  scale: 1.05,
+}}
+whileTap={{
+  scale: 0.95,
+}}
+type="submit"
+variant="contained"
+startIcon={<SaveIcon />}
+disabled={loading}
+sx={{
+  mt:2,
+  py:1.5,
+  fontSize:18,
+  fontWeight:"bold",
+  borderRadius:3,
+
+  background:
+    "linear-gradient(90deg,#4CAF50,#66BB6A)",
+
+  boxShadow:"0 8px 20px rgba(76,175,80,.4)",
+
+  "&:hover":{
+    background:
+      "linear-gradient(90deg,#43A047,#2E7D32)"
+  }
+}}
+>
+{
+loading
+?
+<CircularProgress
+size={22}
+sx={{
+color:"#f0dddd"
+}}
+/>
+:
+"➕ Add Record"
+}
+</Button>
       </Grid>
     </Paper>
+    </Box>
   );
 };

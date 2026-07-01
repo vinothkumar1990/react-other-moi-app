@@ -3,6 +3,7 @@ import data from "../assets/mois.json"
 import { Atom } from 'react-loading-indicators'
 import "./Home.css"
 import useData from "./custom-hook/useData" 
+import { motion } from "framer-motion";
 
 export const PlaceGroup = () => {
   const { products, error, isLoading } = useData(
@@ -83,57 +84,134 @@ export const PlaceGroup = () => {
   }
 
   return (
-    <div>
+  <motion.div
+    initial={{
+      opacity: 0,
+    }}
+    animate={{
+      opacity: 1,
+    }}
+    transition={{
+      duration: 0.8,
+    }}
+  >
 
       {/* Print Button */}
-      <div style={{ textAlign: 'right', margin: '10px' }} className="no-print">
-        <button
-          onClick={handlePrint}
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#0275d8',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-          }}
-        >
-          Print Page
-        </button>
-      </div>
+      <motion.div
+  className="no-print"
+  initial={{
+    y: -40,
+    opacity: 0,
+  }}
+  animate={{
+    y: 0,
+    opacity: 1,
+  }}
+  transition={{
+    duration: 0.6,
+    delay: 0.2,
+  }}
+  style={{
+    textAlign: "right",
+    margin: "10px",
+  }}
+>
+        <motion.button
+  whileHover={{
+    scale: 1.08,
+    y: -2,
+  }}
+  whileTap={{
+    scale: 0.95,
+  }}
+  onClick={handlePrint}
+  style={{
+    padding: "10px 20px",
+    background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+    color: "#fff",
+    border: "none",
+    borderRadius: "10px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    boxShadow: "0 10px 20px rgba(0,0,0,.2)",
+  }}
+>
+  🖨️ Print Page
+</motion.button>
+      </motion.div>
 
       {/* Grouped Table */}
       <div style={{ width: '100%', padding: '10px' }}>
         {Object.entries(grouped).map(([place, items]) => (
-          <div
-            key={place}
-            style={{
-              marginBottom: '30px',
-              border: '1px solid #aaa',
-              borderRadius: '5px',
-              overflow: 'hidden',
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: '#0275d8',
-                color: 'white',
-                padding: '10px 15px',
-                fontSize: '18px',
-              }}
-            >
+          <motion.div
+  key={place}
+  initial={{
+    opacity: 0,
+    y: 50,
+  }}
+  animate={{
+    opacity: 1,
+    y: 0,
+  }}
+  transition={{
+    duration: 0.6,
+  }}
+  style={{
+    marginBottom: "30px",
+    border: "1px solid #aaa",
+    borderRadius: "8px",
+    overflow: "hidden",
+  }}
+>
+            <motion.div
+  initial={{
+    x: -50,
+    opacity: 0,
+  }}
+  animate={{
+    x: 0,
+    opacity: 1,
+  }}
+  transition={{
+    duration: 0.5,
+  }}
+  style={{
+    background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+    color: "#fff",
+    padding: "12px",
+    fontSize: "18px",
+    fontWeight: "bold",
+  }}
+>
               {place}
-            </div>
+            </motion.div>
 
-            <div style={{ overflowX: 'auto' }}>
+            <motion.div
+  initial={{
+    opacity: 0,
+    scale: 0.95,
+  }}
+  animate={{
+    opacity: 1,
+    scale: 1,
+  }}
+  transition={{
+    duration: 0.6,
+  }}
+  style={{
+    overflowX: "auto",
+  }}
+>
               <table
                 width="100%"
                 border="1"
                 style={{
-                  borderCollapse: 'collapse',
-                  minWidth: '1200px',
-                  fontSize: '14px',
-                }}
+borderCollapse:"collapse",
+minWidth:"1200px",
+fontSize:"14px",
+boxShadow:"0 10px 20px rgba(0,0,0,.15)",
+borderRadius:"10px"
+}}
               >
                 <thead>
                   <tr style={{ backgroundColor: '#f1f1f1' }}>
@@ -148,13 +226,19 @@ export const PlaceGroup = () => {
 
                 <tbody>
                   {items.map((item, index) => (
-                    <tr
-                      key={item.id || index}
-                      style={{
-                        backgroundColor:
-                          index % 2 === 0 ? '#f7d4e7' : '#e2e2e2',
-                      }}
-                    >
+                    <motion.tr
+  key={item.id || index}
+  initial={{
+    opacity: 0,
+    x: -20,
+  }}
+  animate={{
+    opacity: 1,
+    x: 0,
+  }}
+  transition={{
+    delay: index * 0.05,
+  }}>
                       <td style={tdStyle}>{item.name}</td>
                       <td style={tdStyle}>{item.old_amount}</td>
                       <td style={tdStyle}>{item.new_amount}</td>
@@ -165,16 +249,25 @@ export const PlaceGroup = () => {
                           ? "நிலுவையில் உள்ளது"
                           : "நிறைவு"}
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
 
                   {/* Total Row */}
-                  <tr
-                    style={{
-                      backgroundColor: '#dff0d8',
-                      fontWeight: 'bold',
-                    }}
-                  >
+                  <motion.tr
+  initial={{
+    opacity: 0,
+  }}
+  animate={{
+    opacity: 1,
+  }}
+  transition={{
+    delay: 0.8,
+  }}
+  style={{
+    backgroundColor: "#dff0d8",
+    fontWeight: "bold",
+  }}
+>
                     <td></td>
                     <td style={tdTotalStyle}>
                       மொத்தம்:{' '}
@@ -195,55 +288,49 @@ export const PlaceGroup = () => {
                     <td></td>
                     <td></td>
                     <td></td>
-                  </tr>
+                  </motion.tr>
                 </tbody>
               </table>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 
-      {/* Print CSS */}
-<style>
+      {/* PRINT STYLES */}
+      <style>
         {`
-        @media print {
-          @page {
-            size: landscape;
-            margin: 10mm;
+          @media print {
+            @page {
+              size: landscape;
+              margin: 10mm;
+            }
+            body {
+              margin: 0;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            button {
+              display: none !important;
+            }
+            table {
+              width: 100% !important;
+              min-width: 100% !important;
+              font-size: 11px;
+              border-collapse: collapse;
+            }
+            th, td {
+              padding: 4px !important;
+              word-wrap: break-word;
+            }
+            div[style*="overflow-x: auto"] {
+              overflow: visible !important;
+            }
+            .navbar, .footer {
+              display: none !important;
+            }
           }
-
-          body {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-            background: white;
-          }
-
-          /* Hide non-print elements */
-          .slides-section, .no-print, .navbar, .footer {
-            display: none !important;
-          }
-
-          /* Ensure table formatting in print */
-          table {
-            width: 100% !important;
-            min-width: 100% !important;
-            font-size: 12px !important;
-            border-collapse: collapse !important;
-          }
-
-          th, td {
-            border: 1px solid #000 !important;
-            padding: 8px !important;
-            text-align: center !important;
-          }
-
-          /* Allow content overflow on print */
-          div {
-            overflow: visible !important;
-          }
-        }
-      `}
+        `}
       </style>
-    </div>
+    </motion.div>
   );
 };

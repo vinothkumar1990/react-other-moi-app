@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import data from "../assets/mois.json";
 import { Atom } from "react-loading-indicators";
 import "./Home.css";
@@ -25,6 +26,28 @@ export const Home = ({ cart, setCart }) => {
   );
 
   const [loadingLocal, setLoadingLocal] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const itemsPerPage = 10;
+  const activeData = products && products.length > 0 ? products : data;
+  const filteredData = activeData.filter(
+  (item) =>
+    String(item.function_name).trim().toLowerCase() ===
+    String(userFunction).trim().toLowerCase()
+);
+
+ const pageCount = Math.ceil(filteredData.length / itemsPerPage);
+
+const offset = currentPage * itemsPerPage;
+
+const currentItems = filteredData.slice(
+  offset,
+  offset + itemsPerPage
+);
+
+const handlePageClick = (event) => {
+  setCurrentPage(event.selected);
+};
 
   // Fallback JSON loader
   useEffect(() => {
@@ -34,22 +57,18 @@ export const Home = ({ cart, setCart }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Decide which data to use
-  const activeData = products && products.length > 0 ? products : data;
-
-  // ✅ FILTERING BASED ON function_name
-  const filteredData = activeData.filter(
-    (item) =>
-      String(item.function_name).trim().toLowerCase() ===
-      String(userFunction).trim().toLowerCase()
-  );
+  
 
   // Group by name
-  const grouped = filteredData.reduce((acc, curr) => {
-    if (!acc[curr.name]) acc[curr.name] = [];
-    acc[curr.name].push(curr);
-    return acc;
-  }, {});
+  const grouped = currentItems.reduce((acc, curr) => {
+  if (!acc[curr.function_name]) {
+    acc[curr.function_name] = [];
+  }
+
+  acc[curr.function_name].push(curr);
+
+  return acc;
+}, {});
 
   const thStyle = {
     padding: "10px",
@@ -100,7 +119,7 @@ export const Home = ({ cart, setCart }) => {
       </div>
 
       {/* Print Button */}
-      <div style={{ textAlign: "right", margin: "10px" }} className="no-print">
+     {/* <div style={{ textAlign: "right", margin: "10px" }} className="no-print">
         <button
           onClick={handlePrint}
           style={{
@@ -114,7 +133,7 @@ export const Home = ({ cart, setCart }) => {
         >
           Print Page
         </button>
-      </div>
+      </div>*/}
 
       {/* Grouped Table */}
       <div style={{ maxWidth: "100%", width: "100%", padding: "10px" }}>
@@ -216,6 +235,23 @@ export const Home = ({ cart, setCart }) => {
                   </tbody>
                 </table>
               </div>
+              <ReactPaginate
+  previousLabel={"Previous"}
+  nextLabel={"Next"}
+  breakLabel={"..."}
+  pageCount={pageCount}
+  onPageChange={handlePageClick}
+  marginPagesDisplayed={2}
+  pageRangeDisplayed={5}
+  containerClassName={"pagination"}
+  pageClassName={"page-item"}
+  pageLinkClassName={"page-link"}
+  previousClassName={"page-item"}
+  previousLinkClassName={"page-link"}
+  nextClassName={"page-item"}
+  nextLinkClassName={"page-link"}
+  activeClassName={"active"}
+/>
             </div>
           ))
         )}

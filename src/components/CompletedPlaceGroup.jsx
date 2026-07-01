@@ -4,6 +4,7 @@ import { Atom } from 'react-loading-indicators';
 import "./Home.css";
 import useData from "./custom-hook/useData";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export const CompletedPlaceGroup = () => {
   const navigate = useNavigate();
@@ -92,50 +93,131 @@ export const CompletedPlaceGroup = () => {
   }
 
   return (
-    <div className="pending-container">
+    <motion.div
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.8,
+        }}
+      >
       
       {/* Print Button */}
-      <div className="no-print" style={{ textAlign: "right", margin: "10px 20px" }}>
-        <button
+        <motion.div
+        className="no-print"
+        initial={{
+          y: -40,
+          opacity: 0,
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.6,
+          delay: 0.2,
+        }}
+        style={{
+          textAlign: "right",
+          margin: "10px",
+        }}
+      >
+         <motion.button
+          whileHover={{
+            scale: 1.08,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
           onClick={handlePrint}
           style={{
-            backgroundColor: "#0275d8",
-            color: "white",
-            padding: "8px 16px",
+            padding: "10px 20px",
+            background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+            color: "#fff",
             border: "none",
-            borderRadius: "5px",
+            borderRadius: "10px",
             cursor: "pointer",
+            fontWeight: "bold",
+            boxShadow: "0 10px 20px rgba(0,0,0,.2)",
           }}
         >
-          🖨️ Print
-        </button>
-      </div>
+          🖨️ Print Page
+        </motion.button>
+      </motion.div>
 
       {/* Table Output */}
       <div style={{ width: "100%", padding: "10px" }}>
         {Object.entries(grouped).map(([place, items]) => (
-          <div
+                    <motion.div
             key={place}
+            initial={{
+              opacity: 0,
+              y: 50,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.6,
+            }}
             style={{
-              marginBottom: "20px",
+              marginBottom: "30px",
               border: "1px solid #aaa",
-              borderRadius: "5px",
+              borderRadius: "8px",
               overflow: "hidden",
             }}
           >
-            <div
+                       <motion.div
+              initial={{
+                x: -50,
+                opacity: 0,
+              }}
+              animate={{
+                x: 0,
+                opacity: 1,
+              }}
+              transition={{
+                duration: 0.5,
+              }}
               style={{
-                backgroundColor: "#0275d8",
-                color: "white",
-                padding: "10px 15px",
+                background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+                color: "#fff",
+                padding: "12px",
                 fontSize: "18px",
+                fontWeight: "bold",
               }}
             >
-              {place}
-            </div>
+                          {place}
+                        </motion.div>
 
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ borderCollapse: "collapse", width: "100%" }} border="1">
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: 0.95,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              transition={{
+                duration: 0.6,
+              }}
+              style={{
+                overflowX: "auto",
+              }}
+            >
+              <table style={{
+borderCollapse:"collapse",
+minWidth:"1200px",
+fontSize:"14px",
+boxShadow:"0 10px 20px rgba(0,0,0,.15)",
+borderRadius:"10px"
+}} border="1">
                 <thead>
                   <tr style={{ backgroundColor: "#f1f1f1" }}>
                     <th style={thStyle}>ஊர்</th>
@@ -151,12 +233,19 @@ export const CompletedPlaceGroup = () => {
 
                 <tbody>
                   {items.map((item, index) => (
-                    <tr
+                    <motion.tr
                       key={item.id || index}
-                      style={{
-                        backgroundColor: index % 2 === 0 ? "#f7d4e7" : "#e2e2e2",
+                      initial={{
+                        opacity: 0,
+                        x: -20,
                       }}
-                    >
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                      }}
+                      transition={{
+                        delay: index * 0.05,
+                      }}>
                       <td style={tdStyle}>{item.place}</td>
                       <td style={tdStyle}>{item.name}</td>
                       <td style={tdStyle}>{item.old_amount}</td>
@@ -184,11 +273,25 @@ export const CompletedPlaceGroup = () => {
                           Edit
                         </button>
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
 
                   {/* Total Row */}
-                  <tr style={{ backgroundColor: "#dff0d8", fontWeight: "bold" }}>
+                  <motion.tr
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                    transition={{
+                      delay: 0.8,
+                    }}
+                    style={{
+                      backgroundColor: "#dff0d8",
+                      fontWeight: "bold",
+                    }}
+                  >
                     <td></td>
                     <td></td>
                     <td style={tdTotalStyle}>
@@ -213,12 +316,12 @@ export const CompletedPlaceGroup = () => {
                     <td></td>
                     <td></td>
                     <td className="no-print"></td>
-                  </tr>
+                  </motion.tr>
 
                 </tbody>
               </table>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 
@@ -274,6 +377,6 @@ export const CompletedPlaceGroup = () => {
         }
       `}
       </style>
-    </div>
+    </motion.div>
   );
 };
