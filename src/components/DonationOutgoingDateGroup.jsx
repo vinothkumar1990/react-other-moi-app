@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Slab } from "react-loading-indicators";
 import useFetch from "./custom-hook/useFetch";
 import { useNavigate } from "react-router-dom";
@@ -6,60 +6,58 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import { outgoing_api } from "../utils/outgoing-api";
-import '../styles/print1.css';
+import "../styles/print1.css";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { motion } from "framer-motion";
 
-export const DonationOutgoingDateGroup= () => {
+export const DonationOutgoingDateGroup = () => {
   const navigate = useNavigate();
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState("");
-  
-    // ✅ GET DATA
-      const fetchData = async () => {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // ✅ GET DATA
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+
+      const res = await outgoing_api.get("/donation_outgoing?select=*");
+      setProducts(res.data || []);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // ✅ DELETE
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Delete this record?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
         try {
-          setIsLoading(true);
-    
-          const res = await outgoing_api.get('/donation_outgoing?select=*');
-          setProducts(res.data || []);
-    
+          await outgoing_api.delete(`/donation_outgoing?id=eq.${id}`);
+
+          Swal.fire("Deleted!", "", "success");
+          fetchData();
         } catch (err) {
           console.error(err);
-          setError("Failed to fetch data");
-        } finally {
-          setIsLoading(false);
+          Swal.fire("Error!", "Delete failed", "error");
         }
-      };
-    
-      useEffect(() => {
-        fetchData();
-      }, []);
-    
-      // ✅ DELETE
-      const handleDelete = (id) => {
-        Swal.fire({
-          title: "Are you sure?",
-          text: "Delete this record?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Yes"
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            try {
-              await outgoing_api.delete(`/donation_outgoing?id=eq.${id}`);
-    
-              Swal.fire("Deleted!", "", "success");
-              fetchData();
-    
-            } catch (err) {
-              console.error(err);
-              Swal.fire("Error!", "Delete failed", "error");
-            }
-          }
-        });
-      };
-  
+      }
+    });
+  };
 
   const handleEdit = (id) => {
     navigate(`/update_donation_outgoing/${id}`);
@@ -67,65 +65,55 @@ export const DonationOutgoingDateGroup= () => {
 
   const totalAmount = products.reduce(
     (sum, item) => sum + Number(item.amount || 0),
-    0
+    0,
   );
 
   const downloadExcel = () => {
-  const excelData = sortedProducts.map((item) => ({
-    "தேதி": item.date
-      ? dayjs(item.date).format("DD-MM-YYYY")
-      : "",
-    "செலவு தலைப்பு": item.name || "",
-    "தொகை": Number(item.amount || 0),
-    "விளக்கம்": item.description || ""
-  }));
+    const excelData = sortedProducts.map((item) => ({
+      தேதி: item.date ? dayjs(item.date).format("DD-MM-YYYY") : "",
+      "செலவு தலைப்பு": item.name || "",
+      தொகை: Number(item.amount || 0),
+      விளக்கம்: item.description || "",
+    }));
 
-  // Total Row
-  excelData.push({
-    "தேதி": "",
-    "செலவு தலைப்பு": "மொத்த செலவு",
-    "தொகை": totalAmount,
-    "விளக்கம்": ""
-  });
+    // Total Row
+    excelData.push({
+      தேதி: "",
+      "செலவு தலைப்பு": "மொத்த செலவு",
+      தொகை: totalAmount,
+      விளக்கம்: "",
+    });
 
-  const worksheet = XLSX.utils.json_to_sheet(excelData);
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
 
-  // Column Widths
-  worksheet["!cols"] = [
-    { wch: 15 }, // தேதி
-    { wch: 30 }, // பெயர்
-    { wch: 15 }, // தொகை
-    { wch: 50 }  // விளக்கம்
-  ];
+    // Column Widths
+    worksheet["!cols"] = [
+      { wch: 15 }, // தேதி
+      { wch: 30 }, // பெயர்
+      { wch: 15 }, // தொகை
+      { wch: 50 }, // விளக்கம்
+    ];
 
-  const workbook = XLSX.utils.book_new();
+    const workbook = XLSX.utils.book_new();
 
-  XLSX.utils.book_append_sheet(
-    workbook,
-    worksheet,
-    "மொத்த செலவு"
-  );
+    XLSX.utils.book_append_sheet(workbook, worksheet, "மொத்த செலவு");
 
-  const excelBuffer = XLSX.write(workbook, {
-    bookType: "xlsx",
-    type: "array"
-  });
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
 
-  const blob = new Blob(
-    [excelBuffer],
-    {
-      type:
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    }
-  );
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
 
-  saveAs(blob, "மொத்த_செலவு_தேதி_வாரியாக.xlsx");
-};
+    saveAs(blob, "மொத்த_செலவு_தேதி_வாரியாக.xlsx");
+  };
 
   const handlePrint = () => window.print();
   const sortedProducts = [...products].sort(
-  (a, b) => new Date(a.date) - new Date(b.date)
-);
+    (a, b) => new Date(a.date) - new Date(b.date),
+  );
   const thStyle = {
     padding: "10px",
     borderBottom: "1px solid #ccc",
@@ -142,28 +130,27 @@ export const DonationOutgoingDateGroup= () => {
   const tdTotalStyle = {
     padding: "10px",
     textAlign: "center",
-    color: "#39740c",
+    color: "white",
     fontWeight: "bold",
   };
 
   if (isLoading) {
     return (
       <div style={{ textAlign: "center", marginTop: "60px" }}>
-        <Slab
-          color="#d62560"
-          size="large"
-          text="loading..."
-          textColor="#000"
-        />
+        <Slab color="#d62560" size="large" text="loading..." textColor="#000" />
       </div>
     );
   }
 
   return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
-      
+    <motion.div
+      style={{ padding: "20px", textAlign: "center" }}
+      initial={{ x: -100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
       {/* BUTTONS */}
-      <div
+      <motion.div
         style={{
           display: "flex",
           flexWrap: "wrap",
@@ -171,8 +158,11 @@ export const DonationOutgoingDateGroup= () => {
           gap: "10px",
           marginBottom: "25px",
         }}
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
       >
-        <button
+        <motion.button
           onClick={() => navigate("/donation/outgoing/new")}
           className="btn btn-primary"
           style={{
@@ -183,26 +173,40 @@ export const DonationOutgoingDateGroup= () => {
             fontWeight: "bold",
             minWidth: "120px",
           }}
+          whileHover={{
+            scale: 1.08,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
         >
           ➕ Add New
-        </button>
+        </motion.button>
 
-        <button
-  onClick={downloadExcel}
-  className="btn btn-success"
-  style={{
-    backgroundColor: "#28a745",
-    border: "none",
-    padding: "8px 16px",
-    borderRadius: "5px",
-    fontWeight: "bold",
-    minWidth: "120px",
-  }}
->
-  📊 Download Excel
-</button>
+        <motion.button
+          onClick={downloadExcel}
+          className="btn btn-success"
+          style={{
+            backgroundColor: "#28a745",
+            border: "none",
+            padding: "8px 16px",
+            borderRadius: "5px",
+            fontWeight: "bold",
+            minWidth: "120px",
+          }}
+          whileHover={{
+            scale: 1.08,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
+        >
+          📊 Download Excel
+        </motion.button>
 
-        <button
+        <motion.button
           onClick={handlePrint}
           className="btn btn-secondary"
           style={{
@@ -213,14 +217,26 @@ export const DonationOutgoingDateGroup= () => {
             fontWeight: "bold",
             minWidth: "120px",
           }}
+          whileHover={{
+            scale: 1.08,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
         >
           🖨️ Print Page
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
       {/* TABLE */}
-      <div style={{ overflowX: "auto", maxWidth: "100%", margin: "0 auto" }}>
-        <table
+      <motion.div
+        style={{ overflowX: "auto", maxWidth: "100%", margin: "0 auto" }}
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        <motion.table
           width="100%"
           style={{
             borderCollapse: "collapse",
@@ -229,6 +245,9 @@ export const DonationOutgoingDateGroup= () => {
             borderRadius: "10px",
             overflow: "hidden",
           }}
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
         >
           {/* FIXED THEAD */}
           <thead>
@@ -240,44 +259,80 @@ export const DonationOutgoingDateGroup= () => {
           </thead>
 
           <tbody>
-  {sortedProducts.length === 0 ? (
-    <tr>
-      <td colSpan="8" style={{ padding: "20px", color: "gray" }}>
-        No outgoing records found.
-      </td>
-    </tr>
-  ) : (
-    sortedProducts.map((item, index) => (
-      <tr
-        key={item.id}
-        style={{
-          backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#f2f2f2",
-        }}
-      >
-        <td style={tdStyle}>
-          {item.date
-            ? dayjs(item.date).format("DD-MM-YYYY")
-            : "-"}
-        </td>
-        <td style={tdStyle}>{item.name}</td>
-        <td style={tdStyle}>
-          ₹{Number(item.amount || 0).toLocaleString("en-IN")}
-        </td>
-        
-        
-        <td style={tdStyle}>{item.description}</td>
+            {sortedProducts.length === 0 ? (
+              <tr>
+                <td colSpan="8" style={{ padding: "20px", color: "gray" }}>
+                  No outgoing records found.
+                </td>
+              </tr>
+            ) : (
+              sortedProducts.map((item, index) => (
+                <tr
+                  key={item.id}
+                  style={{
+                    backgroundColor: index % 2 === 0 ? "#ecd1e0" : "#c5def3",
+                  }}
+                >
+                  <td style={tdStyle}>
+                    {item.date ? dayjs(item.date).format("DD-MM-YYYY") : "-"}
+                  </td>
+                  <td style={tdStyle}>{item.name}</td>
+                  <td style={tdStyle}>
+                    ₹{Number(item.amount || 0).toLocaleString("en-IN")}
+                  </td>
 
-
-        
-      </tr>
-    ))
-  )}
-</tbody>
-        </table>
-      </div>
+                  <td style={tdStyle}>{item.description}</td>
+                  <td style={tdStyle} className="no-print">
+                    <motion.button
+                      onClick={() => handleEdit(item.id)}
+                      className="btn btn-primary btn-sm"
+                      style={{ backgroundColor: "#0275d8", border: "none" }}
+                      whileHover={{
+                        scale: 1.08,
+                        y: -2,
+                      }}
+                      whileTap={{
+                        scale: 0.95,
+                      }}
+                    >
+                      Edit
+                    </motion.button>
+                  </td>
+                  <td style={tdStyle} className="no-print">
+                    <motion.button
+                      onClick={() => handleDelete(item.id)}
+                      className="btn btn-danger btn-sm"
+                      style={{ backgroundColor: "#d9534f", border: "none" }}
+                      whileHover={{
+                        scale: 1.08,
+                        y: -2,
+                      }}
+                      whileTap={{
+                        scale: 0.95,
+                      }}
+                    >
+                      Delete
+                    </motion.button>
+                  </td>
+                </tr>
+              ))
+            )}
+            {/* TOTAL ROW */}
+            {products.length > 0 && (
+              <tr style={{ backgroundColor: "#137243", color: "white" }}>
+                <td style={tdTotalStyle}></td>
+                <td style={tdTotalStyle} colSpan="4">
+                  மொத்த செலவு: ₹{totalAmount.toLocaleString("ta-IN")}
+                </td>
+                <td className="no-print"></td>
+                <td className="no-print"></td>
+              </tr>
+            )}
+          </tbody>
+        </motion.table>
+      </motion.div>
 
       {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
-    </div>
+    </motion.div>
   );
 };
-  

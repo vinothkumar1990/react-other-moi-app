@@ -6,7 +6,8 @@ import image2 from "../assets/images/slide2.jpg";
 import image3 from "../assets/images/slide3.jpg";
 import image4 from "../assets/images/slide4.jpg";
 import image5 from "../assets/images/slide5.jpg";
-import useData from "./custom-hook/useData";
+import { income_api } from "../utils/income-api";
+import apiFetch from "./custom-hook/apiFetch";
 
 const images = [image1, image2, image3, image4, image5];
 
@@ -16,17 +17,8 @@ export const Slides = () => {
   const userFunction = loggedInUser?.function_name || "";
 
   // Fetch Supabase data
-  const { products, error, isLoading } = useData(
-    "https://ievyooeawrzhkemxfswj.supabase.co/rest/v1/mois",
-    {
-      headers: {
-        apikey:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI",
-        "Content-Type": "application/json",
-      },
-    }
+  const { products, error, isLoading } = apiFetch(() =>
+    income_api.get("/mois?select=*"),
   );
 
   const [filteredList, setFilteredList] = useState([]);
@@ -42,11 +34,14 @@ export const Slides = () => {
     }
 
     // ✅ FILTERING BASED ON LOGGED-IN USER FUNCTION NAME
-    const byFunction = list.filter(
-      (item) =>
-        String(item.function_name).trim().toLowerCase() ===
-        String(userFunction).trim().toLowerCase()
-    );
+    const byFunction =
+      loggedInUser?.role === "admin"
+        ? list
+        : list.filter(
+            (item) =>
+              String(item.function_name).trim().toLowerCase() ===
+              String(userFunction).trim().toLowerCase(),
+          );
 
     // If no matching records → show nothing
     if (byFunction.length === 0) {
@@ -79,7 +74,9 @@ export const Slides = () => {
   if (filteredList.length === 0) {
     return (
       <div style={{ textAlign: "center", padding: "20px", color: "red" }}>
-        <h5>No records found for your function: <b>{userFunction}</b></h5>
+        <h5>
+          No records found for your function: <b>{userFunction}</b>
+        </h5>
       </div>
     );
   }

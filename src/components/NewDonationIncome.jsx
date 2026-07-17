@@ -7,7 +7,7 @@ import {
   CircularProgress,
   MenuItem,
   IconButton,
-  Box
+  Box,
 } from "@mui/material";
 
 import MicIcon from "@mui/icons-material/Mic";
@@ -22,6 +22,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 
 export const NewDonationIncome = () => {
   const username = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -33,7 +34,7 @@ export const NewDonationIncome = () => {
     type: "",
     description: "",
     date: null,
-    created_by: username?.name || ""
+    created_by: username?.name || "",
   });
 
   const [errors, setErrors] = useState({});
@@ -73,7 +74,7 @@ export const NewDonationIncome = () => {
 
       setNewProduct((prev) => ({
         ...prev,
-        [field]: text
+        [field]: text,
       }));
     };
 
@@ -107,7 +108,7 @@ export const NewDonationIncome = () => {
 
     setNewProduct((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -155,7 +156,7 @@ export const NewDonationIncome = () => {
       // SEND FORM DATA
       const payload = {
         ...newProduct,
-        date: dayjs(newProduct.date).format("YYYY-MM-DD")
+        date: dayjs(newProduct.date).format("YYYY-MM-DD"),
       };
 
       await income_api.post("/donation_income", payload);
@@ -164,7 +165,7 @@ export const NewDonationIncome = () => {
         icon: "success",
         title: "வெற்றிகரமாக சேமிக்கப்பட்டது",
         timer: 1500,
-        showConfirmButton: false
+        showConfirmButton: false,
       });
 
       setNewProduct({
@@ -174,7 +175,7 @@ export const NewDonationIncome = () => {
         type: "",
         description: "",
         date: null,
-        created_by: username?.name || ""
+        created_by: username?.name || "",
       });
 
       setErrors({});
@@ -194,7 +195,7 @@ export const NewDonationIncome = () => {
           width: "95%",
           mx: "auto",
           mt: 3,
-          p: { xs: 2, sm: 3 }
+          p: { xs: 2, sm: 3 },
         }}
       >
         <Typography
@@ -212,17 +213,15 @@ export const NewDonationIncome = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: 2
+            gap: 2,
           }}
         >
-          
-
           {/* place */}
           <Box
             sx={{
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
-              gap: 1
+              gap: 1,
             }}
           >
             <TextField
@@ -243,16 +242,14 @@ export const NewDonationIncome = () => {
                 height: { xs: 45, sm: 56 },
                 border: "1px solid #ccc",
                 borderRadius: 1,
-                alignSelf: { xs: "flex-end", sm: "center" }
+                alignSelf: { xs: "flex-end", sm: "center" },
               }}
             >
               {listeningField === "place" ? (
                 <CircularProgress size={20} />
               ) : (
                 <MicIcon
-                  color={
-                    listeningField === "name" ? "error" : "primary"
-                  }
+                  color={listeningField === "name" ? "error" : "primary"}
                 />
               )}
             </IconButton>
@@ -263,7 +260,7 @@ export const NewDonationIncome = () => {
             sx={{
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
-              gap: 1
+              gap: 1,
             }}
           >
             <TextField
@@ -284,16 +281,14 @@ export const NewDonationIncome = () => {
                 height: { xs: 45, sm: 56 },
                 border: "1px solid #ccc",
                 borderRadius: 1,
-                alignSelf: { xs: "flex-end", sm: "center" }
+                alignSelf: { xs: "flex-end", sm: "center" },
               }}
             >
               {listeningField === "name" ? (
                 <CircularProgress size={20} />
               ) : (
                 <MicIcon
-                  color={
-                    listeningField === "name" ? "error" : "primary"
-                  }
+                  color={listeningField === "name" ? "error" : "primary"}
                 />
               )}
             </IconButton>
@@ -311,7 +306,7 @@ export const NewDonationIncome = () => {
             error={!!errors.amount}
             helperText={errors.amount}
           />
-          
+
           {/* DATE PICKER */}
           <DatePicker
             label="தேதி"
@@ -319,7 +314,7 @@ export const NewDonationIncome = () => {
             onChange={(newValue) => {
               setNewProduct((prev) => ({
                 ...prev,
-                date: newValue
+                date: newValue,
               }));
             }}
             format="DD/MM/YYYY"
@@ -327,8 +322,8 @@ export const NewDonationIncome = () => {
               textField: {
                 fullWidth: true,
                 error: !!errors.date,
-                helperText: errors.date
-              }
+                helperText: errors.date,
+              },
             }}
           />
 
@@ -345,13 +340,9 @@ export const NewDonationIncome = () => {
           >
             <MenuItem value="">-- Select Type --</MenuItem>
 
-            <MenuItem value="நன்கொடை">
-              நன்கொடை வரவு
-            </MenuItem>
+            <MenuItem value="நன்கொடை">நன்கொடை வரவு</MenuItem>
 
-            <MenuItem value="பொது">
-              பொது வரவு
-            </MenuItem>
+            <MenuItem value="பொது">பொது வரவு</MenuItem>
 
             <MenuItem value="-">-</MenuItem>
           </TextField>
@@ -361,7 +352,7 @@ export const NewDonationIncome = () => {
             sx={{
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
-              gap: 1
+              gap: 1,
             }}
           >
             <TextField
@@ -382,41 +373,25 @@ export const NewDonationIncome = () => {
                 height: { xs: 45, sm: 56 },
                 border: "1px solid #ccc",
                 borderRadius: 1,
-                alignSelf: { xs: "flex-end", sm: "center" }
+                alignSelf: { xs: "flex-end", sm: "center" },
               }}
             >
               {listeningField === "description" ? (
                 <CircularProgress size={20} />
               ) : (
                 <MicIcon
-                  color={
-                    listeningField === "description"
-                      ? "error"
-                      : "primary"
-                  }
+                  color={listeningField === "description" ? "error" : "primary"}
                 />
               )}
             </IconButton>
           </Box>
 
           {/* USER */}
-          <TextField
-            value={username?.name || ""}
-            fullWidth
-            disabled
-          />
+          <TextField value={username?.name || ""} fullWidth disabled />
 
           {/* SUBMIT */}
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={loading}
-          >
-            {loading ? (
-              <CircularProgress size={22} />
-            ) : (
-              "Add"
-            )}
+          <Button type="submit" variant="contained" disabled={loading}>
+            {loading ? <CircularProgress size={22} /> : "Add"}
           </Button>
         </Box>
       </Paper>

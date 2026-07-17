@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import data from "../assets/pending.json";
-import { Atom } from 'react-loading-indicators';
+import { Atom } from "react-loading-indicators";
 import "./Home.css";
 import useData from "./custom-hook/useData";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ export const PendingGroupRelo = () => {
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI",
         "Content-Type": "application/json",
       },
-    }
+    },
   );
 
   const [mois, setMois] = useState([]);
@@ -40,7 +40,8 @@ export const PendingGroupRelo = () => {
   // Filter pending records
   const filteredProducts =
     (products?.filter((item) => item.status === "Pending") ||
-      mois.filter((item) => item.status === "Pending")) ?? [];
+      mois.filter((item) => item.status === "Pending")) ??
+    [];
 
   // Group by name
   const grouped = filteredProducts.reduce((acc, curr) => {
@@ -80,7 +81,10 @@ export const PendingGroupRelo = () => {
   return (
     <div className="pending-container">
       {/* Print button */}
-      <div className="no-print" style={{ textAlign: "right", margin: "10px 20px" }}>
+      <div
+        className="no-print"
+        style={{ textAlign: "right", margin: "10px 20px" }}
+      >
         <button
           onClick={handlePrint}
           style={{
@@ -185,7 +189,7 @@ export const PendingGroupRelo = () => {
                         .reduce(
                           (total, item) =>
                             total + parseFloat(item.old_amount || 0),
-                          0
+                          0,
                         )
                         .toLocaleString("ta-IN")}
                     </td>
@@ -195,7 +199,7 @@ export const PendingGroupRelo = () => {
                         .reduce(
                           (total, item) =>
                             total + parseFloat(item.new_amount || 0),
-                          0
+                          0,
                         )
                         .toLocaleString("ta-IN")}
                     </td>

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Mosaic } from "react-loading-indicators";
 import { income_api } from "../utils/income-api";
 import Swal from "sweetalert2";
-import "../styles/print.css";
+import "../styles/kovil-print.css";
+import { motion } from "framer-motion";
 
 export const DonationIncomeGroup = () => {
   const [products, setProducts] = useState([]);
@@ -79,45 +80,58 @@ export const DonationIncomeGroup = () => {
     return (
       <div style={{ textAlign: "center", marginTop: "50px" }}>
         <center>
-          <Mosaic
-            color="#d62560"
-            size="large"
-            text=""
-            textColor=""
-          />
+          <Mosaic color="#d62560" size="large" text="" textColor="" />
         </center>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: "10px" }}>
-      <div
+    <motion.div
+      style={{ padding: "10px" }}
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.div
         className="no-print"
         style={{
           display: "flex",
           justifyContent: "flex-end",
           marginBottom: "15px",
         }}
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8 }}
       >
-        <button onClick={handlePrint} className="btn btn-success">
+        <motion.button
+          onClick={handlePrint}
+          className="btn btn-success"
+          whileHover={{
+            scale: 1.08,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
+        >
           🖨️ Print
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
       {Object.entries(grouped).map(([type, items]) => {
         // Amount decending Order
         const sortedItems = [...items].sort(
-           (a, b) => Number(b.amount || 0) - Number(a.amount || 0)
+          (a, b) => Number(b.amount || 0) - Number(a.amount || 0),
         );
 
         const totalAmount = sortedItems.reduce(
           (total, item) => total + Number(item.amount || 0),
-          0
+          0,
         );
 
         return (
-          <div
+          <motion.div
             key={type}
             style={{
               marginBottom: "30px",
@@ -125,8 +139,11 @@ export const DonationIncomeGroup = () => {
               borderRadius: "5px",
               overflow: "hidden",
             }}
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8 }}
           >
-            <div
+            <motion.div
               style={{
                 backgroundColor: "#0275d8",
                 color: "white",
@@ -134,11 +151,14 @@ export const DonationIncomeGroup = () => {
                 fontSize: "18px",
                 fontWeight: "bold",
               }}
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
             >
               {type}
-            </div>
+            </motion.div>
 
-            <table
+            <motion.table
               width="100%"
               style={{
                 borderCollapse: "collapse",
@@ -151,7 +171,7 @@ export const DonationIncomeGroup = () => {
                   <th style={thStyle}>பெயர்</th>
                   <th style={thStyle}>தொகை</th>
                   <th style={thStyle}>தேதி</th>
-                  <th style={thStyle}>விளக்கம்</th>
+                  <th style={thStyle}></th>
                 </tr>
               </thead>
 
@@ -160,8 +180,7 @@ export const DonationIncomeGroup = () => {
                   <tr
                     key={item.id}
                     style={{
-                      backgroundColor:
-                        index % 2 === 0 ? "#f7d4e7" : "#e2e2e2",
+                      backgroundColor: index % 2 === 0 ? "#f7d4e7" : "#e2e2e2",
                     }}
                   >
                     <td style={tdStyle}>{item.place}</td>
@@ -169,9 +188,7 @@ export const DonationIncomeGroup = () => {
                     <td style={tdStyle}>
                       ₹{Number(item.amount || 0).toLocaleString("en-IN")}
                     </td>
-                    <td style={tdStyle}>
-                      {formatDate(item.date)}
-                    </td>
+                    <td style={tdStyle}>{formatDate(item.date)}</td>
                     <td style={tdStyle}>{item.description}</td>
                   </tr>
                 ))}
@@ -193,10 +210,10 @@ export const DonationIncomeGroup = () => {
                   <td style={tdTotalStyle}></td>
                 </tr>
               </tbody>
-            </table>
-          </div>
+            </motion.table>
+          </motion.div>
         );
       })}
-    </div>
+    </motion.div>
   );
 };
