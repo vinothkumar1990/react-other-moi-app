@@ -1,7 +1,7 @@
 // src/components/Login.jsx
-import React, { useState } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { loginUser } from '../utils/auth';
+import React, { useState } from "react";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { loginUser } from "../utils/auth";
 import {
   Container,
   Paper,
@@ -11,50 +11,46 @@ import {
   Box,
   Link,
   CircularProgress,
-} from '@mui/material';
-import Swal from 'sweetalert2';
+} from "@mui/material";
+import Swal from "sweetalert2";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  setLoading(true);
-  setError("");
+    setLoading(true);
+    setError("");
 
-  const result = await loginUser(
-    email,
-    password,
-    navigate
-  );
+    const result = await loginUser(email, password, navigate);
 
-  setLoading(false);
+    setLoading(false);
 
-  if (result.success) {
-    Swal.fire({
-      icon: "success",
-      title: "Success",
-      text: result.message,
-    });
-  } else {
-    setError(result.message);
+    if (result.success) {
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: result.message,
+      });
+    } else {
+      setError(result.message);
 
-    Swal.fire({
-      icon: "error",
-      title: "Login Failed",
-      text: result.message,
-    });
-  }
-};
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: result.message,
+      });
+    }
+  };
 
   return (
     <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ p: 4, mt: 10 }}>
+      <Paper elevation={3} sx={{ p: 4, mt: 10 }} style={{ color: "#1976d2" }}>
         <Typography variant="h5" align="center" gutterBottom>
           Login
         </Typography>
@@ -86,37 +82,35 @@ function Login() {
           )}
 
           <Button
-  type="submit"
-  variant="contained"
-  color="primary"
-  fullWidth
-  sx={{ mt: 2 }}
-  disabled={loading}
->
-  {loading ? (
-    <CircularProgress size={24} color="inherit" />
-  ) : (
-    "Login"
-  )}
-</Button>
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
+          </Button>
 
-<Box textAlign="right" mt={1}>
-  <Link
-    component={RouterLink}
-    to="/forgot-password"
-    underline="hover"
-  >
-    Forgot Password?
-  </Link>
-</Box>
+          <Box textAlign="right" mt={1}>
+            <Link
+              component={RouterLink}
+              to="/forgot-password"
+              underline="hover"
+            >
+              Forgot Password?
+            </Link>
+          </Box>
         </Box>
 
-        {<Typography variant="body2" align="center" sx={{ mt: 2 }}>
-          Don’t have an account?{' '}
-          <Link component={RouterLink} to="/signup">
-            SignUp
-          </Link>
-        </Typography>}
+        {
+          <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+            Don’t have an account?{" "}
+            <Link component={RouterLink} to="/signup">
+              SignUp
+            </Link>
+          </Typography>
+        }
       </Paper>
     </Container>
   );

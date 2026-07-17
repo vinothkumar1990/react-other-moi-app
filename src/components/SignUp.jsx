@@ -8,7 +8,8 @@ function SignUp() {
   const navigate = useNavigate();
 
   const API_URL = "https://maywdxirobbziiuhjttx.supabase.co/rest/v1/users";
-  const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1heXdkeGlyb2JiemlpdWhqdHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1NDQxODgsImV4cCI6MjA3NzEyMDE4OH0.XzwnZInezLXhwmBI29JmcGjmnRCGc35ih1XYBvYrlwA";
+  const API_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1heXdkeGlyb2JiemlpdWhqdHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1NDQxODgsImV4cCI6MjA3NzEyMDE4OH0.XzwnZInezLXhwmBI29JmcGjmnRCGc35ih1XYBvYrlwA";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -53,13 +54,13 @@ function SignUp() {
       newErrors.password = "Password is required";
     } else if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(
-        formData.password
+        formData.password,
       )
     ) {
       newErrors.password =
         "Min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char";
     }
-     // ✅ NEW VALIDATION (function_name)
+    // ✅ NEW VALIDATION (function_name)
     if (!formData.function_name.trim()) {
       newErrors.function_name = "Function name is required";
     } else if (formData.function_name.length < 3) {
@@ -71,15 +72,12 @@ function SignUp() {
 
   // ✅ Check duplicate email
   const checkEmailExists = async (email) => {
-    const res = await fetch(
-      `${API_URL}?email=eq.${email}&select=id`,
-      {
-        headers: {
-          apikey: API_KEY,
-          Authorization: `Bearer ${API_KEY}`,
-        },
-      }
-    );
+    const res = await fetch(`${API_URL}?email=eq.${email}&select=id`, {
+      headers: {
+        apikey: API_KEY,
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
 
     const data = await res.json();
     return data.length > 0;
@@ -131,13 +129,12 @@ function SignUp() {
           function_name: formData.function_name,
           password: formData.password,
         },
-        "XlpzewjfbJtoPKxrw"
+        "XlpzewjfbJtoPKxrw",
       );
 
       Swal.fire("Success!", "Registered Successfully", "success");
 
       navigate("/login");
-
     } catch (err) {
       Swal.fire("Error!", "Something went wrong", "error");
     } finally {
@@ -154,19 +151,19 @@ function SignUp() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100"
-      style={{ background: "linear-gradient(135deg, #667eea, #764ba2)" }}>
-
+    <div
+      className="d-flex justify-content-center align-items-center vh-100"
+      style={{ background: "linear-gradient(135deg, #aff0e7, #b1ece4)" }}
+    >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         className="card p-4 shadow"
-        style={{ width: "400px", borderRadius: "15px" }}
+        style={{ width: "400px", borderRadius: "15px", color: "blue" }}
       >
-        <h3 className="text-center mb-4">🚀 Sign Up</h3>
+        <h3 className="text-center mb-4">Sign Up</h3>
 
         <form onSubmit={handleRegister}>
-
           {/* NAME */}
           <motion.div animate={errors.name && "animate"} variants={shake}>
             <input
@@ -206,8 +203,6 @@ function SignUp() {
             <div className="text-danger small">{errors.password}</div>
           </motion.div>
 
-          
-
           {/* FUNCTION NAME */}
           <motion.div
             animate={errors.function_name && "animate"}
@@ -223,9 +218,7 @@ function SignUp() {
               value={formData.function_name}
               onChange={handleChange}
             />
-            <div className="text-danger small">
-              {errors.function_name}
-            </div>
+            <div className="text-danger small">{errors.function_name}</div>
           </motion.div>
 
           {/* ROLE */}
@@ -250,17 +243,16 @@ function SignUp() {
             <option value="active">Active</option>
           </select>
 
-
           {/* BUTTON */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="btn btn-dark w-100"
+            className="btn w-100"
             disabled={loading}
+            style={{ color: "white", backgroundColor: "#0e4920" }}
           >
             {loading ? "Registering..." : "Register"}
           </motion.button>
-
         </form>
       </motion.div>
     </div>
