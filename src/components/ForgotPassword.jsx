@@ -11,8 +11,7 @@ import {
 } from "@mui/material";
 import Swal from "sweetalert2";
 
-const SUPABASE_URL =
-  "https://maywdxirobbziiuhjttx.supabase.co/rest/v1/users";
+const SUPABASE_URL = "https://maywdxirobbziiuhjttx.supabase.co/rest/v1/users";
 
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1heXdkeGlyb2JiemlpdWhqdHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1NDQxODgsImV4cCI6MjA3NzEyMDE4OH0.XzwnZInezLXhwmBI29JmcGjmnRCGc35ih1XYBvYrlwA";
@@ -23,57 +22,34 @@ function ForgotPassword() {
 
   const handleReset = async () => {
     if (!email) {
-      Swal.fire(
-        "Error",
-        "Please enter email",
-        "error"
-      );
+      Swal.fire("Error", "Please enter email", "error");
       return;
     }
 
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `${SUPABASE_URL}?email=eq.${email}`,
-        {
-          headers: {
-            apikey: API_KEY,
-            Authorization: `Bearer ${API_KEY}`,
-          },
-        }
-      );
+      const response = await fetch(`${SUPABASE_URL}?email=eq.${email}`, {
+        headers: {
+          apikey: API_KEY,
+          Authorization: `Bearer ${API_KEY}`,
+        },
+      });
 
       const data = await response.json();
 
       if (data.length === 0) {
-        Swal.fire(
-          "Error",
-          "Email not found",
-          "error"
-        );
+        Swal.fire("Error", "Email not found", "error");
         return;
       }
 
-      localStorage.setItem(
-        "resetEmail",
-        email
-      );
+      localStorage.setItem("resetEmail", email);
 
-      Swal.fire(
-        "Success",
-        "Email verified",
-        "success"
-      );
+      Swal.fire("Success", "Email verified", "success");
 
-      window.location.href =
-        "/reset-password";
+      window.location.href = "/reset-password";
     } catch (error) {
-      Swal.fire(
-        "Error",
-        error.message,
-        "error"
-      );
+      Swal.fire("Error", error.message, "error");
     } finally {
       setLoading(false);
     }
@@ -87,12 +63,9 @@ function ForgotPassword() {
           p: 4,
           mt: 10,
         }}
+        style={{ color: "#1976d2", backgroundColor: "#d2ebe7" }}
       >
-        <Typography
-          variant="h5"
-          align="center"
-          gutterBottom
-        >
+        <Typography variant="h5" align="center" gutterBottom>
           Forgot Password
         </Typography>
 
@@ -101,9 +74,7 @@ function ForgotPassword() {
           label="Email"
           margin="normal"
           value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <Button
@@ -114,10 +85,7 @@ function ForgotPassword() {
           disabled={loading}
         >
           {loading ? (
-            <CircularProgress
-              size={24}
-              color="inherit"
-            />
+            <CircularProgress size={24} color="inherit" />
           ) : (
             "Verify Email"
           )}

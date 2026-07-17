@@ -95,7 +95,7 @@ export const NewMoiForm = () => {
             mb: 3,
           }}
         >
-          புதிய மொய் பதிவு..
+          புதிய மொய் பதிவு
         </Typography>
 
         <Grid

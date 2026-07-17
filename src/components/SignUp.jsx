@@ -153,13 +153,20 @@ function SignUp() {
   return (
     <div
       className="d-flex justify-content-center align-items-center vh-100"
-      style={{ background: "linear-gradient(135deg, #aff0e7, #b1ece4)" }}
+      style={{
+        background: "linear-gradient(135deg, #b1ece4, #d5f5f1, #ffffff)",
+      }}
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         className="card p-4 shadow"
-        style={{ width: "400px", borderRadius: "15px", color: "blue" }}
+        style={{
+          width: "400px",
+          borderRadius: "15px",
+          color: "blue",
+          backgroundColor: "#f5ddeb",
+        }}
       >
         <h3 className="text-center mb-4">Sign Up</h3>
 

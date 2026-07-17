@@ -49,70 +49,88 @@ function Login() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ p: 4, mt: 10 }} style={{ color: "#1976d2" }}>
-        <Typography variant="h5" align="center" gutterBottom>
-          Login
-        </Typography>
+    <Box
+      sx={{
+        minHeight: "100vh",
 
-        <Box component="form" onSubmit={handleLogin} noValidate>
-          <TextField
-            fullWidth
-            label="Email"
-            type="email"
-            margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <TextField
-            fullWidth
-            label="Password"
-            type="password"
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-
-          {error && (
-            <Typography color="error" variant="body2" mt={1}>
-              {error}
-            </Typography>
-          )}
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
-            disabled={loading}
-          >
-            {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
-          </Button>
-
-          <Box textAlign="right" mt={1}>
-            <Link
-              component={RouterLink}
-              to="/forgot-password"
-              underline="hover"
-            >
-              Forgot Password?
-            </Link>
-          </Box>
-        </Box>
-
-        {
-          <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-            Don’t have an account?{" "}
-            <Link component={RouterLink} to="/signup">
-              SignUp
-            </Link>
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Container maxWidth="sm">
+        <Paper
+          elevation={3}
+          sx={{ p: 4, mt: 10 }}
+          style={{ color: "#1976d2", backgroundColor: "#d2ebe7" }}
+        >
+          <Typography variant="h5" align="center" gutterBottom>
+            Login
           </Typography>
-        }
-      </Paper>
-    </Container>
+
+          <Box component="form" onSubmit={handleLogin} noValidate>
+            <TextField
+              fullWidth
+              label="Email"
+              type="email"
+              margin="normal"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Password"
+              type="password"
+              margin="normal"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            {error && (
+              <Typography color="error" variant="body2" mt={1}>
+                {error}
+              </Typography>
+            )}
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2 }}
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Login"
+              )}
+            </Button>
+
+            <Box textAlign="right" mt={1}>
+              <Link
+                component={RouterLink}
+                to="/forgot-password"
+                underline="hover"
+              >
+                Forgot Password?
+              </Link>
+            </Box>
+          </Box>
+
+          {
+            <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+              Don’t have an account?{" "}
+              <Link component={RouterLink} to="/signup">
+                SignUp
+              </Link>
+            </Typography>
+          }
+        </Paper>
+      </Container>
+    </Box>
   );
 }
 
