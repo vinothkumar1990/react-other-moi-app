@@ -81,7 +81,8 @@ export const PendingPlaceGroup = () => {
                 duration: 0.5,
               }}
               style={{
-                background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+                background:
+                  "linear-gradient(90deg,rgb(6 37 31),rgb(142 119 24))",
                 color: "rgb(255, 255, 255)",
                 padding: "12px",
                 fontSize: "18px",

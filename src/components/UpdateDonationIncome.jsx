@@ -8,7 +8,7 @@ import {
   CircularProgress,
   MenuItem,
   IconButton,
-  Box
+  Box,
 } from "@mui/material";
 
 import MicIcon from "@mui/icons-material/Mic";
@@ -25,7 +25,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import dayjs from "dayjs";
-
+import { motion } from "framer-motion";
 export const UpdateDonationIncome = () => {
   const { id } = useParams();
 
@@ -81,7 +81,7 @@ export const UpdateDonationIncome = () => {
 
       setUpdateProduct((prev) => ({
         ...prev,
-        [field]: text
+        [field]: text,
       }));
     };
 
@@ -102,7 +102,7 @@ export const UpdateDonationIncome = () => {
     const fetchData = async () => {
       try {
         const res = await income_api.get(
-          `/donation_income?select=*&id=eq.${id}`
+          `/donation_income?select=*&id=eq.${id}`,
         );
 
         const data = res.data[0];
@@ -111,7 +111,7 @@ export const UpdateDonationIncome = () => {
           ...data,
 
           // convert date to dayjs
-          date: data?.date ? dayjs(data.date) : null
+          date: data?.date ? dayjs(data.date) : null,
         });
       } catch (error) {
         console.log(error);
@@ -131,13 +131,13 @@ export const UpdateDonationIncome = () => {
 
     setUpdateProduct((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     // clear error
     setErrors((prev) => ({
       ...prev,
-      [name]: ""
+      [name]: "",
     }));
   };
 
@@ -187,22 +187,17 @@ export const UpdateDonationIncome = () => {
 
         name: updateProduct.name.trim(),
 
-        description:
-          updateProduct.description?.trim() || "",
+        description: updateProduct.description?.trim() || "",
 
         amount: Number(updateProduct.amount),
 
         // convert date
         date: updateProduct.date.format("YYYY-MM-DD"),
 
-        created_by: username?.name || ""
+        created_by: username?.name || "",
       });
 
-      await Swal.fire(
-        "Success!",
-        "வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
-        "success"
-      );
+      await Swal.fire("Success!", "வெற்றிகரமாக புதுப்பிக்கப்பட்டது", "success");
 
       navigate("/donation/incomes");
     } catch (error) {
@@ -230,260 +225,264 @@ export const UpdateDonationIncome = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Paper
-        elevation={10}
+      <Box
         sx={{
-          maxWidth: 500,
-          width: "95%",
-          mx: "auto",
-          mt: 3,
-          p: { xs: 2, sm: 3 }
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "linear-gradient(135deg, #f8eebf, #f8eebf, #f8eebf)",
+          backgroundSize: "400% 400%",
+          animation: "gradient 10s ease infinite",
+          p: 2,
+
+          "@keyframes gradient": {
+            "0%": {
+              backgroundPosition: "0% 50%",
+            },
+            "50%": {
+              backgroundPosition: "100% 50%",
+            },
+            "100%": {
+              backgroundPosition: "0% 50%",
+            },
+          },
         }}
       >
-        <Typography
-          variant="h5"
-          textAlign="center"
-          color="primary"
-          gutterBottom
-        >
-          வரவு திருத்தம்
-        </Typography>
-
-        <Box
-          component="form"
-          onSubmit={handleUpdate}
+        <Paper
+          component={motion.div}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          elevation={12}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2
+            maxWidth: 500,
+            width: "95%",
+            margin: "20px auto",
+            p: 3,
+            borderRadius: 5,
+            backgroundColor: "#d5f5f1",
+            boxShadow: "0 15px 40px rgba(0,0,0,0.2)",
           }}
         >
-          
+          <Typography
+            variant="h5"
+            textAlign="center"
+            color="primary"
+            gutterBottom
+          >
+            வரவு திருத்தம்
+          </Typography>
 
-
-{/* place */}
           <Box
+            component="form"
+            onSubmit={handleUpdate}
             sx={{
               display: "flex",
-              flexDirection: {
-                xs: "column",
-                sm: "row"
-              },
-              gap: 1
+              flexDirection: "column",
+              gap: 2,
             }}
           >
-            <TextField
-              name="place"
-              value={updateProduct.place || ""}
-              label="ஊர்"
-              fullWidth
-              onChange={handleChange}
-              error={!!errors.place}
-              helperText={errors.place}
-            />
-
-            <IconButton
-              onClick={() =>
-                startListening("place")
-              }
+            {/* place */}
+            <Box
               sx={{
-                minWidth: 50,
-                height: {
-                  xs: 45,
-                  sm: 56
+                display: "flex",
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
                 },
-                border: "1px solid #ccc",
-                borderRadius: 1,
-                alignSelf: {
-                  xs: "flex-end",
-                  sm: "center"
-                }
+                gap: 1,
               }}
             >
-              {listeningField === "place" ? (
-                <CircularProgress size={20} />
-              ) : (
-                <MicIcon color="primary" />
-              )}
-            </IconButton>
-          </Box>
+              <TextField
+                name="place"
+                value={updateProduct.place || ""}
+                label="ஊர்"
+                fullWidth
+                onChange={handleChange}
+                error={!!errors.place}
+                helperText={errors.place}
+              />
 
+              <IconButton
+                onClick={() => startListening("place")}
+                sx={{
+                  minWidth: 50,
+                  height: {
+                    xs: 45,
+                    sm: 56,
+                  },
+                  border: "1px solid #ccc",
+                  borderRadius: 1,
+                  alignSelf: {
+                    xs: "flex-end",
+                    sm: "center",
+                  },
+                }}
+              >
+                {listeningField === "place" ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <MicIcon color="primary" />
+                )}
+              </IconButton>
+            </Box>
 
-          {/* NAME */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: {
-                xs: "column",
-                sm: "row"
-              },
-              gap: 1
-            }}
-          >
-            <TextField
-              name="name"
-              value={updateProduct.name || ""}
-              label="பெயர்"
-              fullWidth
-              onChange={handleChange}
-              error={!!errors.name}
-              helperText={errors.name}
-            />
-
-            <IconButton
-              onClick={() =>
-                startListening("name")
-              }
+            {/* NAME */}
+            <Box
               sx={{
-                minWidth: 50,
-                height: {
-                  xs: 45,
-                  sm: 56
+                display: "flex",
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
                 },
-                border: "1px solid #ccc",
-                borderRadius: 1,
-                alignSelf: {
-                  xs: "flex-end",
-                  sm: "center"
-                }
+                gap: 1,
               }}
             >
-              {listeningField === "name" ? (
-                <CircularProgress size={20} />
-              ) : (
-                <MicIcon color="primary" />
-              )}
-            </IconButton>
-          </Box>
+              <TextField
+                name="name"
+                value={updateProduct.name || ""}
+                label="பெயர்"
+                fullWidth
+                onChange={handleChange}
+                error={!!errors.name}
+                helperText={errors.name}
+              />
 
-          {/* AMOUNT */}
-          <TextField
-            name="amount"
-            value={updateProduct.amount || ""}
-            label="வரவு தொகை"
-            type="number"
-            fullWidth
-            onChange={handleChange}
-            error={!!errors.amount}
-            helperText={errors.amount}
-          />
-           {/* DATE */}
-          <DatePicker
-            label="தேதி"
-            value={updateProduct.date}
-            onChange={(newValue) => {
-              setUpdateProduct((prev) => ({
-                ...prev,
-                date: newValue
-              }));
-            }}
-            format="DD/MM/YYYY"
-            slotProps={{
-              textField: {
-                fullWidth: true,
-                error: !!errors.date,
-                helperText: errors.date
-              }
-            }}
-          />
-          {/* TYPE */}
-          <TextField
-            select
-            name="type"
-            value={updateProduct.type || ""}
-            label="வரவு வகை"
-            fullWidth
-            onChange={handleChange}
-            error={!!errors.type}
-            helperText={errors.type}
-          >
-            <MenuItem value="">
-              -- Select --
-            </MenuItem>
+              <IconButton
+                onClick={() => startListening("name")}
+                sx={{
+                  minWidth: 50,
+                  height: {
+                    xs: 45,
+                    sm: 56,
+                  },
+                  border: "1px solid #ccc",
+                  borderRadius: 1,
+                  alignSelf: {
+                    xs: "flex-end",
+                    sm: "center",
+                  },
+                }}
+              >
+                {listeningField === "name" ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <MicIcon color="primary" />
+                )}
+              </IconButton>
+            </Box>
 
-            <MenuItem value="நன்கொடை">
-                          நன்கொடை வரவு
-                        </MenuItem>
-            
-                        <MenuItem value="பொது">
-                          பொது வரவு
-                        </MenuItem> 
-
-            <MenuItem value="-">-</MenuItem>
-          </TextField>
-
-          {/* DESCRIPTION */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: {
-                xs: "column",
-                sm: "row"
-              },
-              gap: 1
-            }}
-          >
+            {/* AMOUNT */}
             <TextField
-              name="description"
-              value={
-                updateProduct.description || ""
-              }
-              label="வரவு விளக்கம்"
-              multiline
-              rows={3}
+              name="amount"
+              value={updateProduct.amount || ""}
+              label="வரவு தொகை"
+              type="number"
               fullWidth
               onChange={handleChange}
+              error={!!errors.amount}
+              helperText={errors.amount}
             />
-
-            <IconButton
-              onClick={() =>
-                startListening("description")
-              }
-              sx={{
-                minWidth: 50,
-                height: {
-                  xs: 45,
-                  sm: 56
+            {/* DATE */}
+            <DatePicker
+              label="தேதி"
+              value={updateProduct.date}
+              onChange={(newValue) => {
+                setUpdateProduct((prev) => ({
+                  ...prev,
+                  date: newValue,
+                }));
+              }}
+              format="DD/MM/YYYY"
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  error: !!errors.date,
+                  helperText: errors.date,
                 },
-                border: "1px solid #ccc",
-                borderRadius: 1,
-                alignSelf: {
-                  xs: "flex-end",
-                  sm: "center"
-                }
+              }}
+            />
+            {/* TYPE */}
+            <TextField
+              select
+              name="type"
+              value={updateProduct.type || ""}
+              label="வரவு வகை"
+              fullWidth
+              onChange={handleChange}
+              error={!!errors.type}
+              helperText={errors.type}
+            >
+              <MenuItem value="">-- Select --</MenuItem>
+
+              <MenuItem value="நன்கொடை">நன்கொடை வரவு</MenuItem>
+
+              <MenuItem value="பொது">பொது வரவு</MenuItem>
+
+              <MenuItem value="-">-</MenuItem>
+            </TextField>
+
+            {/* DESCRIPTION */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                },
+                gap: 1,
               }}
             >
-              {listeningField ===
-              "description" ? (
-                <CircularProgress size={20} />
-              ) : (
-                <MicIcon color="primary" />
-              )}
-            </IconButton>
+              <TextField
+                name="description"
+                value={updateProduct.description || ""}
+                label="வரவு விளக்கம்"
+                multiline
+                rows={3}
+                fullWidth
+                onChange={handleChange}
+              />
+
+              <IconButton
+                onClick={() => startListening("description")}
+                sx={{
+                  minWidth: 50,
+                  height: {
+                    xs: 45,
+                    sm: 56,
+                  },
+                  border: "1px solid #ccc",
+                  borderRadius: 1,
+                  alignSelf: {
+                    xs: "flex-end",
+                    sm: "center",
+                  },
+                }}
+              >
+                {listeningField === "description" ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <MicIcon color="primary" />
+                )}
+              </IconButton>
+            </Box>
+
+            {/* USER */}
+            <TextField value={username?.name || ""} fullWidth disabled />
+
+            {/* BUTTON */}
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              disabled={saving}
+            >
+              {saving ? <CircularProgress size={20} /> : "Update"}
+            </Button>
           </Box>
-
-          {/* USER */}
-          <TextField
-            value={username?.name || ""}
-            fullWidth
-            disabled
-          />
-
-          {/* BUTTON */}
-          <Button
-            type="submit"
-            variant="contained"
-            color="success"
-            disabled={saving}
-          >
-            {saving ? (
-              <CircularProgress size={20} />
-            ) : (
-              "Update"
-            )}
-          </Button>
-        </Box>
-      </Paper>
+        </Paper>
+      </Box>
     </LocalizationProvider>
   );
-}; 
+};

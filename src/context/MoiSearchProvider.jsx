@@ -26,19 +26,17 @@ import {
   Button,
 } from "@mui/material";
 export const MoiContext = createContext();
-
+import { API_CONFIG } from "../config/config.js";
 export const MoiSearchProvider = ({ children }) => {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
   const userFunctionName = loggedInUser?.function_name || "";
 
-  const { products, error, isLoading } = useData(
-    "https://ievyooeawrzhkemxfswj.supabase.co/rest/v1/mois",
+  const { products, error, isLoading, setProducts } = useData(
+    `${API_CONFIG.BASE_URL}/rest/v1/mois`,
     {
       headers: {
-        apikey:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI",
+        apikey: API_CONFIG.API_KEY,
+        Authorization: `Bearer ${API_CONFIG.API_KEY}`,
         "Content-Type": "application/json",
       },
     },

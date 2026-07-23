@@ -23,7 +23,7 @@ export const OutgoingDateGroup = () => {
 
       // ✅ SORT DATE ASCENDING
       const sortedData = (res.data || []).sort(
-        (a, b) => new Date(a.date) - new Date(b.date)
+        (a, b) => new Date(a.date) - new Date(b.date),
       );
 
       setProducts(sortedData);
@@ -87,12 +87,7 @@ export const OutgoingDateGroup = () => {
     return (
       <div style={{ textAlign: "center", marginTop: "50px" }}>
         <center>
-          <BlinkBlur
-            color="#d62560"
-            size="large"
-            text=""
-            textColor=""
-          />
+          <BlinkBlur color="#d62560" size="large" text="" textColor="" />
         </center>
       </div>
     );
@@ -159,8 +154,6 @@ export const OutgoingDateGroup = () => {
                   width: "100%",
                 }}
               >
-                
-
                 <tbody>
                   {items.map((item, index) => (
                     <tr
@@ -196,9 +189,8 @@ export const OutgoingDateGroup = () => {
                       ₹{" "}
                       {items
                         .reduce(
-                          (total, item) =>
-                            total + parseFloat(item.amount || 0),
-                          0
+                          (total, item) => total + parseFloat(item.amount || 0),
+                          0,
                         )
                         .toFixed(2)}
                     </td>

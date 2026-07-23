@@ -42,6 +42,9 @@ export const StatusGroupTable = ({ items }) => {
             transition={{
               delay: index * 0.05,
             }}
+            style={{
+              backgroundColor: index % 2 === 0 ? "#f8d8d8" : "#caf5f5", // Even : White, Odd : Light Gray
+            }}
           >
             <td style={tdStyle}>{item.place}</td>
             <td style={tdStyle}>{item.name}</td>

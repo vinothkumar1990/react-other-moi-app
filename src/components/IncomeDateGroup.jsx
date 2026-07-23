@@ -23,7 +23,7 @@ export const IncomeDateGroup = () => {
 
       // ✅ SORT DATE ASCENDING
       const sortedData = (res.data || []).sort(
-        (a, b) => new Date(a.date) - new Date(b.date)
+        (a, b) => new Date(a.date) - new Date(b.date),
       );
 
       setProducts(sortedData);
@@ -153,8 +153,6 @@ export const IncomeDateGroup = () => {
                   width: "100%",
                 }}
               >
-                
-
                 <tbody>
                   {items.map((item, index) => (
                     <tr
@@ -190,9 +188,8 @@ export const IncomeDateGroup = () => {
                       ₹{" "}
                       {items
                         .reduce(
-                          (total, item) =>
-                            total + parseFloat(item.amount || 0),
-                          0
+                          (total, item) => total + parseFloat(item.amount || 0),
+                          0,
                         )
                         .toFixed(2)}
                     </td>

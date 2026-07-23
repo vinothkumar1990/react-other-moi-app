@@ -89,7 +89,7 @@ export const GivenStatusGroup = ({ cart, setCart }) => {
                 duration: 0.5,
               }}
               style={{
-                background: "linear-gradient(90deg,#1976D2,#42A5F5)",
+                background: "linear-gradient(90deg,rgb(11 117 31),#42A5F5)",
                 color: "#fff",
                 padding: "12px",
                 fontSize: "18px",

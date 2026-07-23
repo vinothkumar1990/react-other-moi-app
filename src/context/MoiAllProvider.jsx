@@ -12,12 +12,13 @@ import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import useData from "../components/custom-hook/useData";
-
+import { API_CONFIG } from "../config/config.js";
 export const MoiContext = createContext();
 
 export const MoiAllProvider = ({ children }) => {
   const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
-  const { products, error, isLoading, setProducts } = useData(
+  {
+    /*const { products, error, isLoading, setProducts } = useData(
     "https://ievyooeawrzhkemxfswj.supabase.co/rest/v1/mois",
     {
       headers: {
@@ -25,6 +26,17 @@ export const MoiAllProvider = ({ children }) => {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI",
         Authorization:
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI",
+        "Content-Type": "application/json",
+      },
+    },
+  );*/
+  }
+  const { products, error, isLoading, setProducts } = useData(
+    `${API_CONFIG.BASE_URL}/rest/v1/mois`,
+    {
+      headers: {
+        apikey: API_CONFIG.API_KEY,
+        Authorization: `Bearer ${API_CONFIG.API_KEY}`,
         "Content-Type": "application/json",
       },
     },

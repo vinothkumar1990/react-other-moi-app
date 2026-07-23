@@ -176,7 +176,7 @@ export const MoiSearchRelo = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Box
         sx={{
-          background: "linear-gradient(90deg,#1565c0,#42a5f5)",
+          background: "linear-gradient(90deg,#c01515,#42a5f5)",
           color: "#fff",
           p: 3,
           borderRadius: 3,
@@ -184,8 +184,11 @@ export const MoiSearchRelo = () => {
           boxShadow: 4,
         }}
       >
-        <Typography variant="h4" fontWeight="bold">
-          மொய் பதிவுகளை தேடவும் மற்றும் நிர்வகிக்கவும்.
+        <Typography
+          variant="h4"
+          style={{ color: "white", textAlign: "center" }}
+        >
+          மொய் பதிவுகளை தேடவும் மற்றும் நிர்வகிக்கவும்
         </Typography>
       </Box>
 
@@ -197,6 +200,7 @@ export const MoiSearchRelo = () => {
           mb: 3,
           p: 1,
         }}
+        style={{ color: "#1976d2", backgroundColor: "#b0d8aa" }}
       >
         <CardContent>
           <Typography variant="h6" fontWeight="bold" mb={3}>
@@ -323,11 +327,17 @@ export const MoiSearchRelo = () => {
             },
 
             "& .MuiDataGrid-row:nth-of-type(even)": {
-              backgroundColor: "#fafafa",
+              backgroundColor: "#f7bfb7",
+            },
+            "& .MuiDataGrid-row:nth-of-type(odd)": {
+              backgroundColor: "#f8e6b3",
             },
 
             "& .MuiDataGrid-row:hover": {
               backgroundColor: "#E3F2FD",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: "#2094e7",
             },
           }}
         />

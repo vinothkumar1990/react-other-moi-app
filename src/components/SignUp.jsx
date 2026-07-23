@@ -17,7 +17,7 @@ function SignUp() {
     password: "",
     role: "free",
     function_name: "",
-    status: "active",
+    status: "inactive",
   });
 
   const [errors, setErrors] = useState({});
@@ -227,29 +227,6 @@ function SignUp() {
             />
             <div className="text-danger small">{errors.function_name}</div>
           </motion.div>
-
-          {/* ROLE */}
-          <select
-            name="role"
-            className="form-select mb-3"
-            value={formData.role}
-            onChange={handleChange}
-            disabled={true}
-          >
-            <option value="free">Free</option>
-          </select>
-
-          {/* Status */}
-          <select
-            name="status"
-            className="form-select mb-3"
-            value={formData.status}
-            onChange={handleChange}
-            disabled={true}
-          >
-            <option value="active">Active</option>
-          </select>
-
           {/* BUTTON */}
           <motion.button
             whileHover={{ scale: 1.05 }}

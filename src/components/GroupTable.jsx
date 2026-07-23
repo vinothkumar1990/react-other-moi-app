@@ -43,6 +43,7 @@ export const GroupTable = ({ items }) => {
             transition={{
               delay: index * 0.05,
             }}
+            
           >
             <td style={tdStyle}>{item.place}</td>
             <td style={tdStyle}>{item.name}</td>
@@ -101,6 +102,7 @@ export const GroupTable = ({ items }) => {
               .reduce((t, i) => t + parseFloat(i.new_amount || 0), 0)
               .toLocaleString("ta-IN")}
           </td>
+          <td></td>
           <td></td>
           <td></td>
           <td className="no-print"></td>

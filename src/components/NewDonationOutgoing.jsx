@@ -7,13 +7,13 @@ import {
   CircularProgress,
   MenuItem,
   IconButton,
-  Box
+  Box,
 } from "@mui/material";
 
 import MicIcon from "@mui/icons-material/Mic";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
-
+import { motion } from "framer-motion";
 import { outgoing_api } from "../utils/outgoing-api";
 
 // DATE PICKER
@@ -29,8 +29,8 @@ export const NewDonationOutgoing = () => {
     amount: "",
     type: "",
     description: "",
-    date: null, 
-    created_by: username?.name || ""
+    date: null,
+    created_by: username?.name || "",
   });
 
   const [errors, setErrors] = useState({});
@@ -73,7 +73,7 @@ export const NewDonationOutgoing = () => {
 
       setNewProduct((prev) => ({
         ...prev,
-        [field]: text
+        [field]: text,
       }));
     };
 
@@ -95,12 +95,12 @@ export const NewDonationOutgoing = () => {
 
     setNewProduct((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     setErrors((prev) => ({
       ...prev,
-      [name]: ""
+      [name]: "",
     }));
   };
 
@@ -149,14 +149,14 @@ export const NewDonationOutgoing = () => {
         date: newProduct.date.format("YYYY-MM-DD"),
 
         name: newProduct.name.trim(),
-        description: newProduct.description.trim()
+        description: newProduct.description.trim(),
       });
 
       Swal.fire({
         icon: "success",
         title: "வெற்றிகரமாக சேமிக்கப்பட்டது",
         timer: 1500,
-        showConfirmButton: false
+        showConfirmButton: false,
       });
 
       // RESET
@@ -166,7 +166,7 @@ export const NewDonationOutgoing = () => {
         type: "",
         description: "",
         date: null,
-        created_by: username?.name || ""
+        created_by: username?.name || "",
       });
 
       setErrors({});
@@ -181,186 +181,197 @@ export const NewDonationOutgoing = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Paper
-        elevation={10}
+      <Box
         sx={{
-          maxWidth: 500,
-          width: "95%",
-          mx: "auto",
-          mt: 3,
-          p: { xs: 2, sm: 3 }
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "linear-gradient(135deg, #aec5f8, #d5f5f1, #ffffff)",
+          backgroundSize: "400% 400%",
+          animation: "gradient 10s ease infinite",
+          p: 2,
+
+          "@keyframes gradient": {
+            "0%": {
+              backgroundPosition: "0% 50%",
+            },
+            "50%": {
+              backgroundPosition: "100% 50%",
+            },
+            "100%": {
+              backgroundPosition: "0% 50%",
+            },
+          },
         }}
       >
-        <Typography
-          variant="h5"
-          textAlign="center"
-          color="primary"
-          gutterBottom
-        >
-          புதிய செலவு
-        </Typography>
-
-        <Box
-          component="form"
-          onSubmit={handleAdd}
+        <Paper
+          component={motion.div}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          elevation={12}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2
+            maxWidth: 500,
+            width: "95%",
+            margin: "20px auto",
+            p: 3,
+            borderRadius: 5,
+            backgroundColor: "#f3e4bb",
+            boxShadow: "0 15px 40px rgba(0,0,0,0.2)",
           }}
         >
-          
+          <Typography
+            variant="h5"
+            textAlign="center"
+            color="primary"
+            gutterBottom
+          >
+            புதிய செலவு
+          </Typography>
 
-          {/* NAME */}
           <Box
+            component="form"
+            onSubmit={handleAdd}
             sx={{
               display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              gap: 1
+              flexDirection: "column",
+              gap: 2,
             }}
           >
-            <TextField
-              name="name"
-              value={newProduct.name}
-              label="செலவு தலைப்பு"
-              fullWidth
-              onChange={handleChange}
-              error={!!errors.name}
-              helperText={errors.name}
-            />
-
-            <IconButton
-              onClick={() => startListening("name")}
+            {/* NAME */}
+            <Box
               sx={{
-                minWidth: 50,
-                height: { xs: 45, sm: 56 },
-                border: "1px solid #ccc",
-                borderRadius: 1,
-                alignSelf: { xs: "flex-end", sm: "center" }
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: 1,
               }}
             >
-              {listeningField === "name" ? (
-                <CircularProgress size={20} />
-              ) : (
-                <MicIcon color="primary" />
-              )}
-            </IconButton>
-          </Box>
+              <TextField
+                name="name"
+                value={newProduct.name}
+                label="செலவு தலைப்பு"
+                fullWidth
+                onChange={handleChange}
+                error={!!errors.name}
+                helperText={errors.name}
+              />
 
-          {/* AMOUNT */}
-          <TextField
-            name="amount"
-            value={newProduct.amount}
-            label="செலவு தொகை"
-            type="number"
-            fullWidth
-            onChange={handleChange}
-            error={!!errors.amount}
-            helperText={errors.amount}
-          />
-          {/* DATE PICKER */}
-          <DatePicker
-            label="தேதி"
-            value={newProduct.date}
-            onChange={(newValue) => {
-              setNewProduct((prev) => ({
-                ...prev,
-                date: newValue
-              }));
-            }}
-            format="DD/MM/YYYY"
-            slotProps={{
-              textField: {
-                fullWidth: true,
-                error: !!errors.date,
-                helperText: errors.date
-              }
-            }}
-          />
+              <IconButton
+                onClick={() => startListening("name")}
+                sx={{
+                  minWidth: 50,
+                  height: { xs: 45, sm: 56 },
+                  border: "1px solid #ccc",
+                  borderRadius: 1,
+                  alignSelf: { xs: "flex-end", sm: "center" },
+                }}
+              >
+                {listeningField === "name" ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <MicIcon color="primary" />
+                )}
+              </IconButton>
+            </Box>
 
-          {/* TYPE */}
-          <TextField
-            select
-            name="type"
-            value={newProduct.type}
-            label="செலவு வகை"
-            fullWidth
-            onChange={handleChange}
-            error={!!errors.type}
-            helperText={errors.type}
-          >
-            <MenuItem value="">-- Select Type --</MenuItem>
-
-            <MenuItem value="நன்கொடை">
-              நன்கொடை செலவு
-            </MenuItem>
-
-            
-
-            <MenuItem value="பொது">
-              பொது செலவு
-            </MenuItem>
-
-            <MenuItem value="-">-</MenuItem>
-          </TextField>
-
-          {/* DESCRIPTION */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              gap: 1
-            }}
-          >
+            {/* AMOUNT */}
             <TextField
-              name="description"
-              value={newProduct.description}
-              label="செலவு விளக்கம்"
-              multiline
-              rows={3}
+              name="amount"
+              value={newProduct.amount}
+              label="செலவு தொகை"
+              type="number"
               fullWidth
               onChange={handleChange}
+              error={!!errors.amount}
+              helperText={errors.amount}
+            />
+            {/* DATE PICKER */}
+            <DatePicker
+              label="தேதி"
+              value={newProduct.date}
+              onChange={(newValue) => {
+                setNewProduct((prev) => ({
+                  ...prev,
+                  date: newValue,
+                }));
+              }}
+              format="DD/MM/YYYY"
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  error: !!errors.date,
+                  helperText: errors.date,
+                },
+              }}
             />
 
-            <IconButton
-              onClick={() => startListening("description")}
+            {/* TYPE */}
+            <TextField
+              select
+              name="type"
+              value={newProduct.type}
+              label="செலவு வகை"
+              fullWidth
+              onChange={handleChange}
+              error={!!errors.type}
+              helperText={errors.type}
+            >
+              <MenuItem value="">-- Select Type --</MenuItem>
+
+              <MenuItem value="நன்கொடை">நன்கொடை செலவு</MenuItem>
+
+              <MenuItem value="பொது">பொது செலவு</MenuItem>
+
+              <MenuItem value="-">-</MenuItem>
+            </TextField>
+
+            {/* DESCRIPTION */}
+            <Box
               sx={{
-                minWidth: 50,
-                height: { xs: 45, sm: 56 },
-                border: "1px solid #ccc",
-                borderRadius: 1,
-                alignSelf: { xs: "flex-end", sm: "center" }
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: 1,
               }}
             >
-              {listeningField === "description" ? (
-                <CircularProgress size={20} />
-              ) : (
-                <MicIcon color="primary" />
-              )}
-            </IconButton>
+              <TextField
+                name="description"
+                value={newProduct.description}
+                label="செலவு விளக்கம்"
+                multiline
+                rows={3}
+                fullWidth
+                onChange={handleChange}
+              />
+
+              <IconButton
+                onClick={() => startListening("description")}
+                sx={{
+                  minWidth: 50,
+                  height: { xs: 45, sm: 56 },
+                  border: "1px solid #ccc",
+                  borderRadius: 1,
+                  alignSelf: { xs: "flex-end", sm: "center" },
+                }}
+              >
+                {listeningField === "description" ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <MicIcon color="primary" />
+                )}
+              </IconButton>
+            </Box>
+
+            {/* USER */}
+            <TextField value={username?.name || ""} fullWidth disabled />
+
+            {/* SUBMIT */}
+            <Button type="submit" variant="contained" disabled={loading}>
+              {loading ? <CircularProgress size={22} /> : "Add"}
+            </Button>
           </Box>
-
-          {/* USER */}
-          <TextField
-            value={username?.name || ""}
-            fullWidth
-            disabled
-          />
-
-          {/* SUBMIT */}
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={loading}
-          >
-            {loading ? (
-              <CircularProgress size={22} />
-            ) : (
-              "Add"
-            )}
-          </Button>
-        </Box>
-      </Paper>
+        </Paper>
+      </Box>
     </LocalizationProvider>
   );
 };

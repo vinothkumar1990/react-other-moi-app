@@ -13,9 +13,9 @@ import { MoiFilter } from "./components/MoiFilter";
 import { Pending } from "./components/Pending";
 import { Completed } from "./components/Completed";
 import { Large } from "./components/Large";
-import { VinothMoi } from "./components/VinothMoi";
-import { VigneshMoi } from "./components/VigneshMoi";
-import { VijayMoi } from "./components/VijayMoi";
+//import { VinothMoi } from "./components/VinothMoi";
+//import { VigneshMoi } from "./components/VigneshMoi";
+//import { VijayMoi } from "./components/VijayMoi";
 import { AllMoiList } from "./components/AllMoiList";
 import { PendingGroup } from "./components/PendingGroup";
 import { CompletedGroup } from "./components/CompletedGroup";
@@ -87,8 +87,55 @@ import { MoiProvider } from "./context/MoiProvider";
 import { MoiAllProvider } from "./context/MoiAllProvider";
 import { MoiAllGroupProvider } from "./context/MoiAllGroupProvider";
 import { MoiSearchProvider } from "./context/MoiSearchProvider";
+import { KovilAllProvider } from "./context/KovilAllProvider";
+import { KovilOutAllProvider } from "./context/KovilOutAllProvider";
+import { BalanceAllProvider } from "./context/BalanceAllProvider";
 function App() {
   const [cart, setCart] = useState([]);
+  // Disable Right Click
+  useEffect(() => {
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener("contextmenu", handleContextMenu);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
+
+  // Block F12, Ctrl+Shift+I, Ctrl+U
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && e.key === "I") ||
+        (e.ctrlKey && e.key === "u")
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  // Detect DevTools Open (Trick Method)
+  useEffect(() => {
+    const detectDevTools = () => {
+      const widthThreshold = window.outerWidth - window.innerWidth > 160;
+      const heightThreshold = window.outerHeight - window.innerHeight > 160;
+
+      if (widthThreshold || heightThreshold) {
+        alert("DevTools is not allowed!");
+      }
+    };
+
+    const interval = setInterval(detectDevTools, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Initialize default users (only once)
   useEffect(() => {
@@ -206,7 +253,7 @@ function App() {
             }
           />
 
-          <Route
+          {/*<Route
             path="/vinoth_mois"
             element={
               <PrivateRoute>
@@ -231,7 +278,7 @@ function App() {
                 <VijayMoi />
               </PrivateRoute>
             }
-          />
+          />*/}
 
           <Route
             path="/all_mois"
@@ -308,7 +355,9 @@ function App() {
             path="/kovil/income_list"
             element={
               <PrivateRoute>
-                <KovilIncome />
+                <KovilAllProvider>
+                  <KovilIncome />
+                </KovilAllProvider>
               </PrivateRoute>
             }
           />
@@ -316,7 +365,9 @@ function App() {
             path="/kovil/balances"
             element={
               <PrivateRoute>
-                <KovilBalance />
+                <BalanceAllProvider>
+                  <KovilBalance />
+                </BalanceAllProvider>
               </PrivateRoute>
             }
           />
@@ -343,7 +394,9 @@ function App() {
             path="/kovil/outgoing_list"
             element={
               <PrivateRoute>
-                <KovilOutgoing />
+                <KovilOutAllProvider>
+                  <KovilOutgoing />
+                </KovilOutAllProvider>
               </PrivateRoute>
             }
           />
@@ -397,7 +450,9 @@ function App() {
             path="/kovil/income_group"
             element={
               <PrivateRoute>
-                <IncomeGroup />
+                <KovilAllProvider>
+                  <IncomeGroup />
+                </KovilAllProvider>
               </PrivateRoute>
             }
           />
@@ -406,7 +461,9 @@ function App() {
             path="/kovil/outgoing_group"
             element={
               <PrivateRoute>
-                <OutgoingGroup />
+                <KovilOutAllProvider>
+                  <OutgoingGroup />
+                </KovilOutAllProvider>
               </PrivateRoute>
             }
           />
