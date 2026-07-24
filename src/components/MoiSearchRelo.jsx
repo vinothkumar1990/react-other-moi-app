@@ -184,11 +184,8 @@ export const MoiSearchRelo = () => {
           boxShadow: 4,
         }}
       >
-        <Typography
-          variant="h4"
-          style={{ color: "white", textAlign: "center" }}
-        >
-          மொய் பதிவுகளை தேடவும் மற்றும் நிர்வகிக்கவும்
+        <Typography variant="h4" fontWeight="bold" style={{ color: "white", textAlign: "center" }}>
+          மொய் பதிவுகளை தேடவும் மற்றும் நிர்வகிக்கவும்.
         </Typography>
       </Box>
 

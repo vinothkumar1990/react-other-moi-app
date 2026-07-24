@@ -222,7 +222,15 @@ export const DonationSummary = () => {
       >
         <thead style={{ backgroundColor: "#0275d8", color: "white" }}>
           <tr>
-            <th colSpan="2" style={{ padding: "15px", fontSize: "22px" }}>
+            <th
+              colSpan="2"
+              style={{
+                padding: "15px",
+                fontSize: "22px",
+                background:
+                  "linear-gradient(90deg,rgb(182, 23, 31),rgb(26, 9, 73))",
+              }}
+            >
               மொத்த வரவு செலவு
             </th>
           </tr>

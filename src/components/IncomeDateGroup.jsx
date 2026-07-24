@@ -131,7 +131,8 @@ export const IncomeDateGroup = () => {
             {/* DATE HEADER */}
             <div
               style={{
-                backgroundColor: "#0275d8",
+                background:
+                  "linear-gradient(90deg,rgb(11 93 81),rgb(220 19 83))",
                 color: "white",
                 padding: "10px 15px",
                 fontSize: "18px",

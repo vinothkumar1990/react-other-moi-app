@@ -19,7 +19,7 @@ export const KovilIIncomeGroupTable = ({ grouped }) => {
         >
           <div
             style={{
-              backgroundColor: "#0275d8",
+              background: "linear-gradient(90deg,rgb(220 19 83),rgb(11 93 81))",
               color: "white",
               padding: "10px 15px",
               fontSize: "18px",

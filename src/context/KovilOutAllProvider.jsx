@@ -133,12 +133,13 @@ export const KovilOutAllProvider = ({ children }) => {
     padding: "10px",
     borderBottom: "1px solid #eee",
     textAlign: "center",
+    color: "#160707",
   };
 
   const tdTotalStyle = {
     padding: "10px",
     textAlign: "center",
-    color: "#39740c",
+    color: "#f1dee3",
     fontWeight: "bold",
   };
 

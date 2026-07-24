@@ -70,7 +70,7 @@ export const MoiSearchProvider = ({ children }) => {
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "",
       width: 120,
       sortable: false,
       filterable: false,

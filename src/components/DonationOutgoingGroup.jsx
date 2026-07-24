@@ -150,6 +150,8 @@ export const DonationOutgoingGroup = () => {
                 padding: "10px 15px",
                 fontSize: "18px",
                 fontWeight: "bold",
+                background:
+                  "linear-gradient(90deg,rgb(220 83 19),rgb(11 81 93))",
               }}
               initial={{ y: 80, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

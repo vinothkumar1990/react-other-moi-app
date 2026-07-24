@@ -233,12 +233,14 @@ export const DonationOutgoing = () => {
       {/* TABLE */}
       <motion.div
         style={{ overflowX: "auto", maxWidth: "100%", margin: "0 auto" }}
+        className="print-table-wrapper"
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
         <motion.table
           width="100%"
+          className="print-table"
           style={{
             borderCollapse: "collapse",
             backgroundColor: "#fff",
@@ -253,7 +255,15 @@ export const DonationOutgoing = () => {
           {/* FIXED THEAD */}
           <thead>
             <tr style={{ backgroundColor: "#0275d8", color: "white" }}>
-              <th colSpan="8" style={{ padding: "15px", fontSize: "22px" }}>
+              <th
+                colSpan="8"
+                style={{
+                  padding: "15px",
+                  fontSize: "22px",
+                  background:
+                    "linear-gradient(90deg,rgb(220 10 19),rgb(11 81 17))",
+                }}
+              >
                 மொத்த செலவு
               </th>
             </tr>

@@ -15,21 +15,19 @@ export const KovilAllListTable = () => {
   } = useContext(MoiContext);
 
   return (
-    <div style={{ overflowX: "auto", maxWidth: "100%", margin: "0 auto" }}>
-      <table
-        width="100%"
-        style={{
-          borderCollapse: "collapse",
-          backgroundColor: "#fff",
-          boxShadow: "0px 3px 6px rgba(0,0,0,0.1)",
-          borderRadius: "10px",
-          overflow: "hidden",
-          fontSize: "14px",
-        }}
-      >
+    <div className="print-table-wrapper">
+      <table className="print-table">
         <thead style={{ backgroundColor: "#0275d8", color: "white" }}>
           <tr>
-            <th colSpan="8" style={{ padding: "15px", fontSize: "22px" }}>
+            <th
+              colSpan="8"
+              style={{
+                padding: "15px",
+                fontSize: "22px",
+                background:
+                  "linear-gradient(90deg,rgb(14, 107, 68),rgb(211, 198, 18))",
+              }}
+            >
               மொத்த வரவு
             </th>
           </tr>
@@ -53,7 +51,7 @@ export const KovilAllListTable = () => {
               <tr
                 key={item.id}
                 style={{
-                  backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#f2f2f2",
+                  backgroundColor: index % 2 === 0 ? "#f7e999" : "#ebb6b6",
                 }}
               >
                 <td style={tdStyle}>
@@ -89,7 +87,7 @@ export const KovilAllListTable = () => {
             ))
           )}
           {products.length > 0 && (
-            <tr style={{ backgroundColor: "#d1ecf1" }}>
+            <tr style={{ backgroundColor: "#07323a" }}>
               <td style={tdTotalStyle}></td>
               <td style={tdTotalStyle} colSpan="4">
                 மொத்த வரவு: ₹{totalAmount.toLocaleString("ta-IN")}

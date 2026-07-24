@@ -137,6 +137,8 @@ export const OutgoingDateGroup = () => {
                 padding: "10px 15px",
                 fontSize: "18px",
                 fontWeight: "bold",
+                background:
+                  "linear-gradient(90deg,rgb(13, 30, 83),rgb(220, 32, 83))",
               }}
             >
               {date && dayjs(date).isValid()

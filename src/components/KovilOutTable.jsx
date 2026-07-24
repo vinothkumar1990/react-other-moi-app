@@ -14,9 +14,13 @@ export const KovilOutTable = () => {
     totalAmount,
   } = useContext(MoiContext);
   return (
-    <div style={{ overflowX: "auto", maxWidth: "100%", margin: "0 auto" }}>
+    <div
+      className="print-table-wrapper"
+      style={{ overflowX: "auto", maxWidth: "100%", margin: "0 auto" }}
+    >
       <table
         width="100%"
+        className="print-table"
         style={{
           borderCollapse: "collapse",
           backgroundColor: "#fff",
@@ -28,7 +32,15 @@ export const KovilOutTable = () => {
         {/* FIXED THEAD */}
         <thead>
           <tr style={{ backgroundColor: "#0275d8", color: "white" }}>
-            <th colSpan="8" style={{ padding: "15px", fontSize: "22px" }}>
+            <th
+              colSpan="8"
+              style={{
+                padding: "15px",
+                fontSize: "22px",
+                background:
+                  "linear-gradient(90deg,rgb(123, 19, 220),rgb(112, 9, 73))",
+              }}
+            >
               மொத்த செலவு
             </th>
           </tr>
@@ -46,7 +58,7 @@ export const KovilOutTable = () => {
               <tr
                 key={item.id}
                 style={{
-                  backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#f2f2f2",
+                  backgroundColor: index % 2 === 0 ? "#f7e999" : "#ebb6b6",
                 }}
               >
                 <td style={tdStyle}>
@@ -80,7 +92,7 @@ export const KovilOutTable = () => {
 
           {/* TOTAL ROW */}
           {products.length > 0 && (
-            <tr style={{ backgroundColor: "#d1ecf1" }}>
+            <tr style={{ backgroundColor: "#07323a" }}>
               <td style={tdTotalStyle}></td>
               <td style={tdTotalStyle} colSpan="4">
                 மொத்த செலவு: ₹{totalAmount.toLocaleString("ta-IN")}

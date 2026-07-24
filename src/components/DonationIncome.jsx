@@ -237,6 +237,7 @@ export const DonationIncome = () => {
 
       {/* ✅ Table Wrapper */}
       <motion.div
+        className="print-table-wrapper"
         style={{ overflowX: "auto", maxWidth: "100%", margin: "0 auto" }}
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -244,6 +245,7 @@ export const DonationIncome = () => {
       >
         <motion.table
           width="100%"
+          className="print-table"
           style={{
             borderCollapse: "collapse",
             backgroundColor: "#fff",
@@ -258,7 +260,15 @@ export const DonationIncome = () => {
         >
           <thead style={{ backgroundColor: "#0275d8", color: "white" }}>
             <tr>
-              <th colSpan="10" style={{ padding: "15px", fontSize: "22px" }}>
+              <th
+                colSpan="10"
+                style={{
+                  padding: "15px",
+                  fontSize: "22px",
+                  background:
+                    "linear-gradient(90deg,rgb(220 19 83),rgb(11 93 81))",
+                }}
+              >
                 மொத்த வரவு
               </th>
             </tr>

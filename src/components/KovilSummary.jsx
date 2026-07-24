@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Commet } from 'react-loading-indicators';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Commet } from "react-loading-indicators";
 import { income_api } from "../utils/income-api";
 import { outgoing_api } from "../utils/outgoing-api";
 import { balance_api } from "../utils/balance-api";
 const BASE_URL = "https://ievyooeawrzhkemxfswj.supabase.co/rest/v1";
 
-const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI";
+const API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlldnlvb2Vhd3J6aGtlbXhmc3dqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxODY5OTUsImV4cCI6MjA3Nzc2Mjk5NX0.ctG8m56crGR4hFDxdsBmjh5l7OUvqNq57jj29O1SmQI";
 
 const HEADERS = {
   apikey: API_KEY,
   Authorization: `Bearer ${API_KEY}`,
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 };
 
 export const KovilSummary = () => {
@@ -26,9 +27,9 @@ export const KovilSummary = () => {
     const fetchData = async () => {
       try {
         const [incomeRes, expenseRes, balanceRes] = await Promise.all([
-           income_api.get('/income?select=*'),
-           outgoing_api.get('/outgoing?select=*'),
-           balance_api.get('/balance?select=*')
+          income_api.get("/income?select=*"),
+          outgoing_api.get("/outgoing?select=*"),
+          balance_api.get("/balance?select=*"),
         ]);
 
         setIncome(incomeRes.data);
@@ -48,7 +49,7 @@ export const KovilSummary = () => {
   // 🌀 Loading animation
   if (isLoading) {
     return (
-      <div style={{ marginTop: '50px' }}>
+      <div style={{ marginTop: "50px" }}>
         <center>
           <Commet color="#d62560" size="large" text="Loading..." />
         </center>
@@ -57,13 +58,20 @@ export const KovilSummary = () => {
   }
 
   // 🧮 Calculate totals
-  const totalIncome = income.reduce((sum, item) => sum + Number(item.amount || 0), 0);
-  const totalExpense = expense.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const totalIncome = income.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
+  const totalExpense = expense.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
 
   // 🧾 Get last year's balance (latest year from balance array)
-  const lastYearBalance = balance.length > 0
-    ? Number(balance[balance.length - 1].balance_amount || 0)
-    : 0;
+  const lastYearBalance =
+    balance.length > 0
+      ? Number(balance[balance.length - 1].balance_amount || 0)
+      : 0;
 
   // ✅ Calculate overall balance
   const kovil_balance = totalIncome - totalExpense;
@@ -79,8 +87,7 @@ export const KovilSummary = () => {
       ["மொத்த மீதம்", totalFinalBalance],
     ];
 
-    const csvContent =
-      "\uFEFF" + rows.map(r => r.join(",")).join("\n");
+    const csvContent = "\uFEFF" + rows.map((r) => r.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -96,29 +103,29 @@ export const KovilSummary = () => {
   };
 
   return (
-    <div style={{ padding: '30px', textAlign: 'center' }}>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div style={{ padding: "30px", textAlign: "center" }}>
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {/* Header & Buttons */}
       <div
         className="no-print"
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '10px',
-          marginBottom: '20px',
+          display: "flex",
+          justifyContent: "center",
+          gap: "10px",
+          marginBottom: "20px",
         }}
       >
         <button
           onClick={handlePrint}
           style={{
-            backgroundColor: '#28a745',
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '16px',
+            backgroundColor: "#28a745",
+            color: "white",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "16px",
           }}
         >
           🖨️ Print
@@ -127,13 +134,13 @@ export const KovilSummary = () => {
         <button
           onClick={downloadCSV}
           style={{
-            backgroundColor: '#0275d8',
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '16px',
+            backgroundColor: "#0275d8",
+            color: "white",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "16px",
           }}
         >
           📄 Download CSV
@@ -143,65 +150,81 @@ export const KovilSummary = () => {
       {/* Summary Table */}
       <table
         style={{
-          width: '100%',
-          maxWidth: '800px',
-          margin: '0 auto',
-          borderCollapse: 'collapse',
-          border: '1px solid #ccc',
-          boxShadow: '0 0 15px rgba(0,0,0,0.1)',
-          borderRadius: '10px',
-          overflow: 'hidden',
+          width: "100%",
+          maxWidth: "800px",
+          margin: "0 auto",
+          borderCollapse: "collapse",
+          border: "1px solid #ccc",
+          boxShadow: "0 0 15px rgba(0,0,0,0.1)",
+          borderRadius: "10px",
+          overflow: "hidden",
         }}
       >
-        <thead style={{ backgroundColor: '#0275d8', color: 'white' }}>
+        <thead style={{ backgroundColor: "#0275d8", color: "white" }}>
           <tr>
-            <th colSpan="2" style={{ padding: '15px', fontSize: '22px' }}>
+            <th
+              colSpan="2"
+              style={{
+                padding: "15px",
+                fontSize: "22px",
+                background:
+                  "linear-gradient(90deg,rgb(220 19 83),rgb(11 93 81))",
+              }}
+            >
               மொத்த வரவு செலவு
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr style={{ backgroundColor: '#e0ffe0' }}>
-            <td style={{ padding: '12px', fontWeight: 'bold' }}>மொத்த வரவு</td>
-            <td style={{ padding: '12px', color: '#007b00', fontWeight: 'bold' }}>
-              ₹ {totalIncome.toLocaleString('ta-IN')}
+          <tr style={{ backgroundColor: "#e0ffe0" }}>
+            <td style={{ padding: "12px", fontWeight: "bold" }}>மொத்த வரவு</td>
+            <td
+              style={{ padding: "12px", color: "#007b00", fontWeight: "bold" }}
+            >
+              ₹ {totalIncome.toLocaleString("ta-IN")}
             </td>
           </tr>
-          <tr style={{ backgroundColor: '#ffe0e0' }}>
-            <td style={{ padding: '12px', fontWeight: 'bold' }}>மொத்த செலவு</td>
-            <td style={{ padding: '12px', color: '#c00', fontWeight: 'bold' }}>
-              ₹ {totalExpense.toLocaleString('ta-IN')}
+          <tr style={{ backgroundColor: "#ffe0e0" }}>
+            <td style={{ padding: "12px", fontWeight: "bold" }}>மொத்த செலவு</td>
+            <td style={{ padding: "12px", color: "#c00", fontWeight: "bold" }}>
+              ₹ {totalExpense.toLocaleString("ta-IN")}
             </td>
           </tr>
-          <tr style={{ backgroundColor: '#f0f0f0' }}>
-            <td style={{ padding: '12px', fontWeight: 'bold' }}>இவ்வருட மீதம்</td>
+          <tr style={{ backgroundColor: "#f0f0f0" }}>
+            <td style={{ padding: "12px", fontWeight: "bold" }}>
+              இவ்வருட மீதம்
+            </td>
             <td
               style={{
-                padding: '12px',
-                color: kovil_balance >= 0 ? '#007b00' : '#c00',
-                fontWeight: 'bold',
+                padding: "12px",
+                color: kovil_balance >= 0 ? "#007b00" : "#c00",
+                fontWeight: "bold",
               }}
             >
-              ₹ {kovil_balance.toLocaleString('ta-IN')}
+              ₹ {kovil_balance.toLocaleString("ta-IN")}
             </td>
           </tr>
-          <tr style={{ backgroundColor: '#fff0cc' }}>
-            <td style={{ padding: '12px', fontWeight: 'bold' }}>கடந்த வருட மீதம்</td>
-            <td style={{ padding: '12px', color: '#007bff', fontWeight: 'bold' }}>
-              ₹ {lastYearBalance.toLocaleString('ta-IN')}
+          <tr style={{ backgroundColor: "#fff0cc" }}>
+            <td style={{ padding: "12px", fontWeight: "bold" }}>
+              கடந்த வருட மீதம்
+            </td>
+            <td
+              style={{ padding: "12px", color: "#007bff", fontWeight: "bold" }}
+            >
+              ₹ {lastYearBalance.toLocaleString("ta-IN")}
             </td>
           </tr>
-          
-          <tr style={{ backgroundColor: '#d6f5ff' }}>
-            <td style={{ padding: '12px', fontWeight: 'bold' }}>மொத்த மீதம்</td>
+
+          <tr style={{ backgroundColor: "#d6f5ff" }}>
+            <td style={{ padding: "12px", fontWeight: "bold" }}>மொத்த மீதம்</td>
             <td
               style={{
-                padding: '12px',
-                color: totalFinalBalance >= 0 ? '#007b00' : '#c00',
-                fontWeight: 'bold',
+                padding: "12px",
+                color: totalFinalBalance >= 0 ? "#007b00" : "#c00",
+                fontWeight: "bold",
               }}
             >
-              ₹ {totalFinalBalance.toLocaleString('ta-IN')}
+              ₹ {totalFinalBalance.toLocaleString("ta-IN")}
             </td>
           </tr>
         </tbody>

@@ -135,12 +135,13 @@ export const KovilAllProvider = ({ children }) => {
     padding: "10px",
     borderBottom: "1px solid #eee",
     textAlign: "center",
+    color: "#160707",
   };
   const tdTotalStyle = {
     padding: "10px",
     borderBottom: "1px solid #eee",
     textAlign: "center",
-    color: "#39740c",
+    color: "#f1dee3",
     fontWeight: "bold",
   };
   const grouped = products.reduce((acc, curr) => {
